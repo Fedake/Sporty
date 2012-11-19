@@ -11,12 +11,21 @@ class Player
 		b2World* m_world;
 		sf::RenderWindow* m_win;
 
+		// Body
 		b2Body* m_body;
 		b2BodyDef m_bodyDef;
-		b2PolygonShape m_dynamicBox;
+		b2CircleShape m_dynamicBox;
 		b2FixtureDef m_fixtureDef;
+		sf::CircleShape m_shape;
+		
+		// Leg
+		b2Body* m_legBody;
+		b2BodyDef m_legBodyDef;
+		b2PolygonShape m_legDynamicBox;
+		b2FixtureDef m_legFixtureDef;
+		sf::RectangleShape m_legShape;
 
-		sf::RectangleShape m_shape;
+		// Joint
 
 		int m_vel;
 

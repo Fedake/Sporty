@@ -17,6 +17,7 @@ Engine::Engine(int w, int h, int bpp)
 	m_world = new b2World(m_gravity);
 
 	m_player = new Player(b2Vec2(1.0f, 0.0f), m_world, m_win);
+	m_ball = new Ball(b2Vec2(3.0f, 0.0f), m_world, m_win);
 
 	// Ground
 	m_groundBodyDef.type = b2_staticBody;
@@ -104,6 +105,7 @@ void Engine::render()
 
 	m_win->draw(m_groundShape);
 	m_player->render();
+	m_ball->render();
 
 	m_win->draw(m_info);
 

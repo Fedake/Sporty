@@ -3,6 +3,7 @@
 #include <Box2D\Box2D.h>
 
 #include "Player.h"
+#include "Ball.h"
 
 #define MTP 40
 
@@ -16,6 +17,7 @@ class Engine
 
 		// Player
 		Player* m_player;
+		Ball* m_ball;
 
 		// Ground
 		b2Body* m_groundBody;

@@ -22,15 +22,16 @@ Player::Player(b2Vec2(pos), b2World* world, sf::RenderWindow* win) : m_world(wor
 
 	// The leg
 	m_legBodyDef.type = b2_dynamicBody;
-	m_legBodyDef.position.Set(3.0f, 0.0f);
-	m_legBodyDef.angle = 0.8f;
+	m_legBodyDef.gravityScale = 0.0f;
+	m_legBodyDef.position.Set(2.0f, 0.0f);
+
 	m_legBody = m_world->CreateBody(&m_legBodyDef);
 
 	m_legDynamicBox.SetAsBox(0.4f, 0.3f);
 
 	m_legFixtureDef.shape = &m_legDynamicBox;
 	m_legFixtureDef.density = 1.0f;
-	m_legFixtureDef.friction = 0.3f;
+	m_legFixtureDef.friction = 0.0f;
 	m_legFixtureDef.filter.groupIndex = -8;
 	m_legBody->CreateFixture(&m_legFixtureDef);
 
@@ -41,10 +42,19 @@ Player::Player(b2Vec2(pos), b2World* world, sf::RenderWindow* win) : m_world(wor
 	// Joint
 	m_jointDef.bodyA = m_body;
 	m_jointDef.bodyB = m_legBody;
+	m_jointDef.collideConnected = false;
 	m_jointDef.localAnchorB = m_body->GetWorldCenter();
+	m_jointDef.referenceAngle = 0;
+	m_jointDef.enableLimit = true;
+	m_jointDef.lowerAngle = 160 * b2_pi / 180;
+	m_jointDef.upperAngle = 245 * b2_pi / 180;
+	m_jointDef.enableMotor = true;
+	m_jointDef.maxMotorTorque = 20;
+	m_jointDef.motorSpeed = 360 * b2_pi / 180;
 
 	m_joint = (b2RevoluteJoint*)m_world->CreateJoint(&m_jointDef);
 
+	m_kick = false;
 	m_vel = 0;
 }
 
@@ -63,6 +73,18 @@ void Player::update()
 		force = vel.x * -10; break;
 	}
 	m_body->ApplyForce(b2Vec2(force, 0), m_body->GetWorldCenter());
+
+
+	vel = m_legBody->GetLinearVelocity();
+	force = 0;
+
+	switch (m_kick)
+	{
+	case 1:
+		m_joint->SetMotorSpeed(-30.0f); break;
+	case 0:
+		m_joint->SetMotorSpeed(30.0f); break;
+	}
 }
 
 void Player::handleInput(sf::Event* event)
@@ -75,6 +97,8 @@ void Player::handleInput(sf::Event* event)
 			m_vel -= 1; break;
 		case sf::Keyboard::Right:
 			m_vel += 1; break;
+		case sf::Keyboard::Space:
+			m_kick = true; break;
 		}
 	}
 	if (event->type == sf::Event::KeyReleased)
@@ -85,6 +109,8 @@ void Player::handleInput(sf::Event* event)
 			m_vel += 1; break;
 		case sf::Keyboard::Right:
 			m_vel -= 1; break;
+		case sf::Keyboard::Space:
+			m_kick = false; break;
 		}
 	}
 }
@@ -93,7 +119,7 @@ void Player::render()
 {
 	m_shape.setPosition(m_body->GetPosition().x*MTP, m_body->GetPosition().y*MTP);
 	m_legShape.setPosition(m_legBody->GetPosition().x*MTP, m_legBody->GetPosition().y*MTP);
-	m_legShape.setRotation(180*m_legBody->GetAngle()/3.14);
+	m_legShape.setRotation(180*m_legBody->GetAngle()/b2_pi);
 	m_win->draw(m_shape);
 	m_win->draw(m_legShape);
 }

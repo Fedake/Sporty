@@ -2,6 +2,8 @@
 
 #include <SFML\Graphics.hpp>
 #include <Box2D\Box2D.h>
+#include <math.h>
+#include <iostream>
 
 #define MTP 40
 
@@ -31,6 +33,7 @@ class Player
 
 		// Velocity
 		int m_vel;
+		bool m_kick;
 
 	public:
 		Player(b2Vec2(pos), b2World* world, sf::RenderWindow* win);

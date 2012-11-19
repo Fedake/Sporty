@@ -13,28 +13,45 @@ Engine::Engine(int w, int h, int bpp)
 
 	m_info.setCharacterSize(15);
 
-	m_shape.setSize(sf::Vector2f(20, 20));
-	m_shape.setOrigin(10, 10);
-	m_shape.setFillColor(sf::Color::Red);
-
-	//Physics
 	m_gravity.Set(0, 10);
 	m_world = new b2World(m_gravity);
 
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(20.0f, 0.0f);
-	m_box = m_world->CreateBody(&bodyDef);
+	// Body
+	m_bodyDef.type = b2_dynamicBody;
+	m_bodyDef.position.Set(1.0f, 0.0f);
+	m_body = m_world->CreateBody(&m_bodyDef);
 
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(0.5f, 0.5f);
+	m_dynamicBox.SetAsBox(1.0f, 1.0f);
+	
+	m_fixtureDef.shape = &m_dynamicBox;
+	m_fixtureDef.density = 1.0f;
+	m_fixtureDef.friction = 0.3f;
+	m_body->CreateFixture(&m_fixtureDef);
 
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.3f;
-	m_box->CreateFixture(&fixtureDef);
+	m_shape.setSize(sf::Vector2f(1*MTP, 1*MTP));
+	m_shape.setOrigin(0.5*MTP, 0.5*MTP);
+	m_shape.setFillColor(sf::Color::Red);
 
+	// Ground
+	m_groundBodyDef.type = b2_staticBody;
+	m_groundBodyDef.position.Set(5.0f, 15.0f);
+	m_groundBody = m_world->CreateBody(&m_groundBodyDef);
+
+	m_groundBox.SetAsBox(10.0f, 1.0f);
+
+	m_groundFixtureDef.shape = &m_groundBox;
+	m_groundFixtureDef.density = 1.0f;
+	m_groundFixtureDef.friction = 0.3f;
+	m_groundBody->CreateFixture(&m_groundFixtureDef);
+
+	m_groundShape.setSize(sf::Vector2f(10*MTP, 1*MTP));
+	m_groundShape.setOrigin(5*MTP, 0.5*MTP);
+	m_groundShape.setFillColor(sf::Color::Blue);
+	
+	m_groundShape.setPosition(m_groundBody->GetPosition().x*MTP, m_groundBody->GetPosition().y*MTP);
+
+
+	// Step
 	timeStep = 1.0f / 60.0f;
 }
 
@@ -83,7 +100,7 @@ void Engine::input()
 void Engine::update(sf::Time dt)
 {
 	m_world->Step(timeStep, 6, 2);
-	m_shape.setPosition(m_box->GetPosition().x*20, m_box->GetPosition().y*20);
+	m_shape.setPosition(m_body->GetPosition().x*MTP, m_body->GetPosition().y*MTP);
 
 	std::stringstream s;
 	s <<
@@ -97,6 +114,7 @@ void Engine::render()
 	m_win->clear(sf::Color::Black);
 
 	m_win->draw(m_shape);
+	m_win->draw(m_groundShape);
 	m_win->draw(m_info);
 
 	m_win->display();

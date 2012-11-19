@@ -16,21 +16,7 @@ Engine::Engine(int w, int h, int bpp)
 	m_gravity.Set(0, 10);
 	m_world = new b2World(m_gravity);
 
-	// Body
-	m_bodyDef.type = b2_dynamicBody;
-	m_bodyDef.position.Set(1.0f, 0.0f);
-	m_body = m_world->CreateBody(&m_bodyDef);
-
-	m_dynamicBox.SetAsBox(0.5f, 0.5f);
-	
-	m_fixtureDef.shape = &m_dynamicBox;
-	m_fixtureDef.density = 1.0f;
-	m_fixtureDef.friction = 0.3f;
-	m_body->CreateFixture(&m_fixtureDef);
-
-	m_shape.setSize(sf::Vector2f(1*MTP, 1*MTP));
-	m_shape.setOrigin(0.5*MTP, 0.5*MTP);
-	m_shape.setFillColor(sf::Color::Red);
+	m_player = new Player(b2Vec2(1.0f, 0.0f), m_world, m_win);
 
 	// Ground
 	m_groundBodyDef.type = b2_staticBody;
@@ -74,6 +60,7 @@ void Engine::input()
 	sf::Event ev;
 	while (m_win->pollEvent(ev))
 	{
+		m_player->handleInput(&ev);
 		if(ev.type == sf::Event::Closed) m_win->close();
 		if(ev.type == sf::Event::KeyPressed)
 		{
@@ -99,8 +86,9 @@ void Engine::input()
 
 void Engine::update(sf::Time dt)
 {
+	m_player->update();
+
 	m_world->Step(timeStep, 6, 2);
-	m_shape.setPosition(m_body->GetPosition().x*MTP, m_body->GetPosition().y*MTP);
 
 	std::stringstream s;
 	s <<
@@ -113,7 +101,8 @@ void Engine::render()
 {
 	m_win->clear(sf::Color::Black);
 
-	m_win->draw(m_shape);
+	m_player->render();
+
 	m_win->draw(m_groundShape);
 	m_win->draw(m_info);
 

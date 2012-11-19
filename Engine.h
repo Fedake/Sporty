@@ -2,6 +2,8 @@
 #include <SFML\Graphics.hpp>
 #include <Box2D\Box2D.h>
 
+#include "Player.h"
+
 #define MTP 40
 
 class Engine
@@ -12,12 +14,8 @@ class Engine
 		b2Vec2 m_gravity;
 		float32 timeStep;
 
-		// Body
-		b2Body* m_body;
-		b2BodyDef m_bodyDef;
-		b2PolygonShape m_dynamicBox;
-		b2FixtureDef m_fixtureDef;
-		sf::RectangleShape m_shape;
+		// Player
+		Player* m_player;
 
 		// Ground
 		b2Body* m_groundBody;

@@ -21,7 +21,7 @@ Engine::Engine(int w, int h, int bpp)
 	m_bodyDef.position.Set(1.0f, 0.0f);
 	m_body = m_world->CreateBody(&m_bodyDef);
 
-	m_dynamicBox.SetAsBox(1.0f, 1.0f);
+	m_dynamicBox.SetAsBox(0.5f, 0.5f);
 	
 	m_fixtureDef.shape = &m_dynamicBox;
 	m_fixtureDef.density = 1.0f;
@@ -37,15 +37,15 @@ Engine::Engine(int w, int h, int bpp)
 	m_groundBodyDef.position.Set(5.0f, 15.0f);
 	m_groundBody = m_world->CreateBody(&m_groundBodyDef);
 
-	m_groundBox.SetAsBox(10.0f, 1.0f);
+	m_groundBox.SetAsBox(10.0f, 0.5f);
 
 	m_groundFixtureDef.shape = &m_groundBox;
 	m_groundFixtureDef.density = 1.0f;
 	m_groundFixtureDef.friction = 0.3f;
 	m_groundBody->CreateFixture(&m_groundFixtureDef);
 
-	m_groundShape.setSize(sf::Vector2f(10*MTP, 1*MTP));
-	m_groundShape.setOrigin(5*MTP, 0.5*MTP);
+	m_groundShape.setSize(sf::Vector2f(20*MTP, 1*MTP));
+	m_groundShape.setOrigin(10*MTP, 0.5*MTP);
 	m_groundShape.setFillColor(sf::Color::Blue);
 	
 	m_groundShape.setPosition(m_groundBody->GetPosition().x*MTP, m_groundBody->GetPosition().y*MTP);

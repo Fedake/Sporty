@@ -7,7 +7,7 @@ Engine::Engine(int w, int h, int bpp)
 	sf::ContextSettings conSet = sf::ContextSettings();
 	conSet.antialiasingLevel = 4;
 	
-	m_win = new sf::RenderWindow(sf::VideoMode(w, h, bpp), "Solar System", sf::Style::Titlebar, conSet);
+	m_win = new sf::RenderWindow(sf::VideoMode(w, h, bpp), "Solar System", sf::Style::Default, conSet);
 	m_win->setFramerateLimit(60);
 	m_win->setKeyRepeatEnabled(false);
 

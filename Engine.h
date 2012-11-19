@@ -26,6 +26,9 @@ class Engine
 		b2FixtureDef m_groundFixtureDef;
 		sf::RectangleShape m_groundShape;
 
+		//£añcuch xD
+		b2Body* m_chain;
+
 		sf::Vector2i m_mPos;
 		sf::Vector2f m_mGPos;
 

@@ -1,7 +1,7 @@
 #include "Ball.h"
 
 
-Ball::Ball(b2Vec2(pos), b2World* world, sf::RenderWindow* win) : m_world(world), m_win(win)
+Ball::Ball(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(world), m_win(win)
 {
 	// Body
 	m_bodyDef.type = b2_dynamicBody;
@@ -11,8 +11,9 @@ Ball::Ball(b2Vec2(pos), b2World* world, sf::RenderWindow* win) : m_world(world),
 	m_dynamicBox.m_radius = 0.3f;
 	
 	m_fixtureDef.shape = &m_dynamicBox;
-	m_fixtureDef.density = 1.0f;
+	m_fixtureDef.density = 0.5f;
 	m_fixtureDef.friction = 0.3f;
+	m_fixtureDef.restitution = 1.0f;
 	m_body->CreateFixture(&m_fixtureDef);
 
 	m_shape.setRadius(0.3*MTP);

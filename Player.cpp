@@ -1,7 +1,7 @@
 #include "Player.h"
 
 
-Player::Player(b2Vec2(pos), b2World* world, sf::RenderWindow* win) : m_world(world), m_win(win)
+Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(world), m_win(win)
 {
 	// Body
 	m_bodyDef.type = b2_dynamicBody;

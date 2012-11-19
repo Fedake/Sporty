@@ -38,6 +38,23 @@ Engine::Engine(int w, int h, int bpp)
 	
 	m_groundShape.setPosition(m_groundBody->GetPosition().x*MTP, m_groundBody->GetPosition().y*MTP);
 
+	
+
+	b2BodyDef chainDef;
+	chainDef.type = b2_staticBody;
+	chainDef.position.Set(0, 0);
+
+	m_chain = m_world->CreateBody(&chainDef);
+
+	b2Vec2 verts[4];
+	verts[0].Set(0, 0);
+	verts[1].Set(20, 0);
+	verts[2].Set(20, 15);
+	verts[3].Set(0, 15);
+	b2ChainShape chainShape;
+	chainShape.CreateLoop(verts, 4);
+
+	m_chain->CreateFixture(&chainShape, 0.0f);
 
 	// Step
 	timeStep = 1.0f / 60.0f;

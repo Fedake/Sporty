@@ -28,6 +28,7 @@ Engine::Engine(int w, int h, int bpp)
 	m_groundFixtureDef.shape = &m_groundBox;
 	m_groundFixtureDef.density = 1.0f;
 	m_groundFixtureDef.friction = 0.3f;
+	m_groundFixtureDef.filter.groupIndex = -8;
 	m_groundBody->CreateFixture(&m_groundFixtureDef);
 
 	m_groundShape.setSize(sf::Vector2f(20*MTP, 1*MTP));
@@ -101,9 +102,9 @@ void Engine::render()
 {
 	m_win->clear(sf::Color::Black);
 
+	m_win->draw(m_groundShape);
 	m_player->render();
 
-	m_win->draw(m_groundShape);
 	m_win->draw(m_info);
 
 	m_win->display();

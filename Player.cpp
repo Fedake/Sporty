@@ -26,16 +26,24 @@ Player::Player(b2Vec2(pos), b2World* world, sf::RenderWindow* win) : m_world(wor
 	m_legBodyDef.angle = 0.8f;
 	m_legBody = m_world->CreateBody(&m_legBodyDef);
 
-	m_legDynamicBox.SetAsBox(0.2f, 0.4f);
+	m_legDynamicBox.SetAsBox(0.4f, 0.3f);
 
 	m_legFixtureDef.shape = &m_legDynamicBox;
 	m_legFixtureDef.density = 1.0f;
 	m_legFixtureDef.friction = 0.3f;
+	m_legFixtureDef.filter.groupIndex = -8;
 	m_legBody->CreateFixture(&m_legFixtureDef);
 
-	m_legShape.setSize(sf::Vector2f(0.4*MTP, 0.8*MTP));
-	m_legShape.setOrigin(0.2*MTP, 0.4*MTP);
+	m_legShape.setSize(sf::Vector2f(0.8*MTP, 0.6*MTP));
+	m_legShape.setOrigin(0.4*MTP, 0.3*MTP);
 	m_legShape.setFillColor(sf::Color::Red);
+
+	// Joint
+	m_jointDef.bodyA = m_body;
+	m_jointDef.bodyB = m_legBody;
+	m_jointDef.localAnchorB = m_body->GetWorldCenter();
+
+	m_joint = (b2RevoluteJoint*)m_world->CreateJoint(&m_jointDef);
 
 	m_vel = 0;
 }

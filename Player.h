@@ -26,7 +26,10 @@ class Player
 		sf::RectangleShape m_legShape;
 
 		// Joint
+		b2RevoluteJointDef m_jointDef;
+		b2RevoluteJoint* m_joint;
 
+		// Velocity
 		int m_vel;
 
 	public:

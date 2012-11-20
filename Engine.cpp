@@ -7,11 +7,11 @@ Engine::Engine(int w, int h, int bpp)
 	sf::ContextSettings conSet = sf::ContextSettings();
 	conSet.antialiasingLevel = 4;
 	
-	m_win = new sf::RenderWindow(sf::VideoMode(w, h, bpp), "Solar System", sf::Style::Default, conSet);
+	m_win = new sf::RenderWindow(sf::VideoMode(w, h, bpp), "Sporty", sf::Style::Default, conSet);
 	m_win->setFramerateLimit(60);
 	m_win->setKeyRepeatEnabled(false);
 
-	m_info.setCharacterSize(15);
+	//m_info.setCharacterSize(15);
 
 	m_gravity.Set(0, 10);
 	m_world = new b2World(m_gravity);
@@ -108,12 +108,6 @@ void Engine::update(sf::Time dt)
 	m_player->update();
 
 	m_world->Step(timeStep, 6, 2);
-
-	std::stringstream s;
-	s <<
-	"Fps: " << 1000000.f/dt.asMicroseconds() << "\n";
-
-	m_info.setString(s.str());
 }
 
 void Engine::render()
@@ -123,8 +117,6 @@ void Engine::render()
 	m_win->draw(m_groundShape);
 	m_player->render();
 	m_ball->render();
-
-	m_win->draw(m_info);
 
 	m_win->display();
 }

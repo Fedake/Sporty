@@ -16,7 +16,8 @@ class Ball
 		b2BodyDef m_bodyDef;
 		b2CircleShape m_dynamicBox;
 		b2FixtureDef m_fixtureDef;
-		sf::CircleShape m_shape;
+
+		sf::Sprite m_sprite;
 
 	public:
 		Ball(b2Vec2 pos, b2World* world, sf::RenderWindow* win);

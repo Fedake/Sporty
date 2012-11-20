@@ -99,6 +99,8 @@ void Player::handleInput(sf::Event* event)
 			m_vel += 1; break;
 		case sf::Keyboard::Space:
 			m_kick = true; break;
+		case sf::Keyboard::W:
+			m_body->SetLinearVelocity(b2Vec2(0, -10));
 		}
 	}
 	if (event->type == sf::Event::KeyReleased)

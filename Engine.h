@@ -32,7 +32,6 @@ class Engine
 		sf::Vector2i m_mPos;
 		sf::Vector2f m_mGPos;
 
-		sf::Text m_info;
 
 	public:
 		Engine(int w, int h, int bpp = 32);

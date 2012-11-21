@@ -20,12 +20,14 @@ Engine::Engine(int w, int h, int bpp)
 	m_ball = new Ball(b2Vec2(3.0f, 0.0f), m_world, m_win);
 
 	// Ground
+	b2BodyDef m_groundBodyDef;
 	m_groundBodyDef.type = b2_staticBody;
 	m_groundBodyDef.position.Set(10.0f, 14.0f);
 	m_groundBody = m_world->CreateBody(&m_groundBodyDef);
 
 	m_groundBox.SetAsBox(10.0f, 1.0f);
-
+	
+	b2FixtureDef m_groundFixtureDef;
 	m_groundFixtureDef.shape = &m_groundBox;
 	m_groundFixtureDef.density = 1.0f;
 	m_groundFixtureDef.friction = 0.3f;

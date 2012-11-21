@@ -15,16 +15,12 @@ class Player
 
 		// Body
 		b2Body* m_body;
-		b2BodyDef m_bodyDef;
 		b2CircleShape m_dynamicBox;
-		b2FixtureDef m_fixtureDef;
 		sf::CircleShape m_shape;
 		
 		// Leg
 		b2Body* m_legBody;
-		b2BodyDef m_legBodyDef;
 		b2PolygonShape m_legDynamicBox;
-		b2FixtureDef m_legFixtureDef;
 		sf::RectangleShape m_legShape;
 
 		// Joint

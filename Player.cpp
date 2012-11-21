@@ -4,13 +4,15 @@
 Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(world), m_win(win)
 {
 	// Body
+	b2BodyDef m_bodyDef;
 	m_bodyDef.type = b2_dynamicBody;
-	m_bodyDef.position.Set(0.5f, 0.5f);
+	m_bodyDef.position.Set(5.0f, 5.0f);
 	m_bodyDef.fixedRotation = true;
 	m_body = m_world->CreateBody(&m_bodyDef);
 
 	m_dynamicBox.m_radius = 0.5f;
 	
+	b2FixtureDef m_fixtureDef;
 	m_fixtureDef.shape = &m_dynamicBox;
 	m_fixtureDef.density = 4.0f;
 	m_fixtureDef.friction = 0.3f;
@@ -21,22 +23,25 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 	m_shape.setFillColor(sf::Color::Red);
 
 	// The leg
+	b2BodyDef m_legBodyDef;
 	m_legBodyDef.type = b2_dynamicBody;
 	m_legBodyDef.gravityScale = 0.0f;
-	m_legBodyDef.position.Set(0.5f, 1.1f);
+	m_legBodyDef.position.Set(m_body->GetPosition().x, m_body->GetPosition().y+0.6f);
 
 	m_legBody = m_world->CreateBody(&m_legBodyDef);
 
-	m_legDynamicBox.SetAsBox(0.2f, 0.2f);
-
+	m_legDynamicBox.SetAsBox(0.15f, 0.2f);
+	
+	b2FixtureDef m_legFixtureDef;
 	m_legFixtureDef.shape = &m_legDynamicBox;
 	m_legFixtureDef.density = 1.0f;
 	m_legFixtureDef.friction = 0.1f;
+	m_legFixtureDef.restitution = 2.0f;
 	m_legFixtureDef.filter.groupIndex = -8;
 	m_legBody->CreateFixture(&m_legFixtureDef);
 
-	m_legShape.setSize(sf::Vector2f(0.4*MTP, 0.4*MTP));
-	m_legShape.setOrigin(0.2*MTP, 0.2*MTP);
+	m_legShape.setSize(sf::Vector2f(0.3*MTP, 0.4*MTP));
+	m_legShape.setOrigin(0.15*MTP, 0.2*MTP);
 	m_legShape.setFillColor(sf::Color::Red);
 
 	// Joint
@@ -52,8 +57,8 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 	jointDef.lowerAngle = -100 * b2_pi / 180;
 	jointDef.upperAngle = 20 * b2_pi / 180;
 	jointDef.enableMotor = true;
-	jointDef.maxMotorTorque = 10;
-	jointDef.motorSpeed = 100 * b2_pi / 180;
+	jointDef.maxMotorTorque = 8;
+	jointDef.motorSpeed = 60 * b2_pi / 180;
 
 	m_joint = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef);
 
@@ -69,9 +74,9 @@ void Player::update()
 	switch (m_vel)
 	{
 	case -1:
-		if (vel.x > -4) force = -40; break;
+		if (vel.x > -4) force = -80; break;
 	case 1:
-		if (vel.x < 4) force =  40; break;
+		if (vel.x < 4) force =  80; break;
 	case 0:
 		force = vel.x * -10; break;
 	}
@@ -81,10 +86,10 @@ void Player::update()
 	{
 	case 1:
 		//m_joint->EnableMotor(true);
-		m_joint->SetMotorSpeed(-100.0f); break;
+		m_joint->SetMotorSpeed(-60.0f); break;
 	case 0:
 		//m_joint->EnableMotor(false);
-		m_joint->SetMotorSpeed(50.0f); break;
+		m_joint->SetMotorSpeed(40.0f); break;
 	}
 }
 

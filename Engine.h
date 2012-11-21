@@ -21,9 +21,7 @@ class Engine
 
 		// Ground
 		b2Body* m_groundBody;
-		b2BodyDef m_groundBodyDef;
 		b2PolygonShape m_groundBox;
-		b2FixtureDef m_groundFixtureDef;
 		sf::RectangleShape m_groundShape;
 
 		//£añcuch xD

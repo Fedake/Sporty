@@ -13,9 +13,7 @@ class Ball
 
 		// Body
 		b2Body* m_body;
-		b2BodyDef m_bodyDef;
 		b2CircleShape m_dynamicBox;
-		b2FixtureDef m_fixtureDef;
 
 		sf::Sprite m_sprite;
 

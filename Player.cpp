@@ -5,38 +5,38 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 {
 	// Body
 	m_bodyDef.type = b2_dynamicBody;
-	m_bodyDef.position.Set(0.25f, 0.25f);
+	m_bodyDef.position.Set(0.5f, 0.5f);
 	m_bodyDef.fixedRotation = true;
 	m_body = m_world->CreateBody(&m_bodyDef);
 
-	m_dynamicBox.m_radius = 0.25f;
+	m_dynamicBox.m_radius = 0.5f;
 	
 	m_fixtureDef.shape = &m_dynamicBox;
-	m_fixtureDef.density = 1.0f;
+	m_fixtureDef.density = 4.0f;
 	m_fixtureDef.friction = 0.3f;
 	m_body->CreateFixture(&m_fixtureDef);
 
-	m_shape.setRadius(0.25*MTP);
-	m_shape.setOrigin(0.25*MTP, 0.25*MTP);
+	m_shape.setRadius(0.5*MTP);
+	m_shape.setOrigin(0.5*MTP, 0.5*MTP);
 	m_shape.setFillColor(sf::Color::Red);
 
 	// The leg
 	m_legBodyDef.type = b2_dynamicBody;
 	m_legBodyDef.gravityScale = 0.0f;
-	m_legBodyDef.position.Set(0.25f, 0.65f);
+	m_legBodyDef.position.Set(0.5f, 1.1f);
 
 	m_legBody = m_world->CreateBody(&m_legBodyDef);
 
-	m_legDynamicBox.SetAsBox(0.1f, 0.1f);
+	m_legDynamicBox.SetAsBox(0.2f, 0.2f);
 
 	m_legFixtureDef.shape = &m_legDynamicBox;
 	m_legFixtureDef.density = 1.0f;
-	m_legFixtureDef.friction = 0.0f;
+	m_legFixtureDef.friction = 0.1f;
 	m_legFixtureDef.filter.groupIndex = -8;
 	m_legBody->CreateFixture(&m_legFixtureDef);
 
-	m_legShape.setSize(sf::Vector2f(0.2*MTP, 0.2*MTP));
-	m_legShape.setOrigin(0.1*MTP, 0.1*MTP);
+	m_legShape.setSize(sf::Vector2f(0.4*MTP, 0.4*MTP));
+	m_legShape.setOrigin(0.2*MTP, 0.2*MTP);
 	m_legShape.setFillColor(sf::Color::Red);
 
 	// Joint
@@ -49,11 +49,11 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 	//jointDef.localAnchorB = m_body->GetWorldCenter();
 	jointDef.referenceAngle = 0;
 	jointDef.enableLimit = true;
-	jointDef.lowerAngle = -90 * b2_pi / 180;
-	jointDef.upperAngle = 0 * b2_pi / 180;
+	jointDef.lowerAngle = -100 * b2_pi / 180;
+	jointDef.upperAngle = 20 * b2_pi / 180;
 	jointDef.enableMotor = true;
-	jointDef.maxMotorTorque = 2;
-	jointDef.motorSpeed = 10 * b2_pi / 180;
+	jointDef.maxMotorTorque = 10;
+	jointDef.motorSpeed = 100 * b2_pi / 180;
 
 	m_joint = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef);
 
@@ -69,9 +69,9 @@ void Player::update()
 	switch (m_vel)
 	{
 	case -1:
-		if (vel.x > -2) force = -20; break;
+		if (vel.x > -4) force = -40; break;
 	case 1:
-		if (vel.x < 2) force =  20; break;
+		if (vel.x < 4) force =  40; break;
 	case 0:
 		force = vel.x * -10; break;
 	}
@@ -81,10 +81,10 @@ void Player::update()
 	{
 	case 1:
 		//m_joint->EnableMotor(true);
-		m_joint->SetMotorSpeed(-10.0f); break;
+		m_joint->SetMotorSpeed(-100.0f); break;
 	case 0:
 		//m_joint->EnableMotor(false);
-		m_joint->SetMotorSpeed(10.0f); break;
+		m_joint->SetMotorSpeed(50.0f); break;
 	}
 }
 
@@ -101,7 +101,7 @@ void Player::handleInput(sf::Event* event)
 		case sf::Keyboard::Space:
 			m_kick = true; break;
 		case sf::Keyboard::Up:
-			m_body->ApplyLinearImpulse(b2Vec2(0, -2), m_body->GetWorldCenter());
+			m_body->ApplyLinearImpulse(b2Vec2(0, -12), m_body->GetWorldCenter());
 		}
 	}
 	if (event->type == sf::Event::KeyReleased)

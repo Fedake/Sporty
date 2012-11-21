@@ -5,7 +5,7 @@
 #include "Player.h"
 #include "Ball.h"
 
-#define MTP 80
+#define MTP 40
 
 class Engine
 {

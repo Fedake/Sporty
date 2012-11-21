@@ -3,7 +3,7 @@
 #include <SFML\Graphics.hpp>
 #include <Box2D\Box2D.h>
 
-#define MTP 80
+#define MTP 40
 
 class Ball
 {

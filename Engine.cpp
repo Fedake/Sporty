@@ -13,7 +13,7 @@ Engine::Engine(int w, int h, int bpp)
 
 	//m_info.setCharacterSize(15);
 
-	m_gravity.Set(0, 10);
+	m_gravity.Set(0, 7);
 	m_world = new b2World(m_gravity);
 
 	m_player = new Player(b2Vec2(1.0f, 0.0f), m_world, m_win);
@@ -21,10 +21,10 @@ Engine::Engine(int w, int h, int bpp)
 
 	// Ground
 	m_groundBodyDef.type = b2_staticBody;
-	m_groundBodyDef.position.Set(5.0f, 7.0f);
+	m_groundBodyDef.position.Set(10.0f, 14.0f);
 	m_groundBody = m_world->CreateBody(&m_groundBodyDef);
 
-	m_groundBox.SetAsBox(5.0f, 0.5f);
+	m_groundBox.SetAsBox(10.0f, 1.0f);
 
 	m_groundFixtureDef.shape = &m_groundBox;
 	m_groundFixtureDef.density = 1.0f;
@@ -32,8 +32,8 @@ Engine::Engine(int w, int h, int bpp)
 	m_groundFixtureDef.filter.groupIndex = -8;
 	m_groundBody->CreateFixture(&m_groundFixtureDef);
 
-	m_groundShape.setSize(sf::Vector2f(10*MTP, 1*MTP));
-	m_groundShape.setOrigin(5*MTP, 0.5*MTP);
+	m_groundShape.setSize(sf::Vector2f(20*MTP, 2*MTP));
+	m_groundShape.setOrigin(10*MTP, 1.0*MTP);
 	m_groundShape.setFillColor(sf::Color::Blue);
 	
 	m_groundShape.setPosition(m_groundBody->GetPosition().x*MTP, m_groundBody->GetPosition().y*MTP);
@@ -48,9 +48,9 @@ Engine::Engine(int w, int h, int bpp)
 
 	b2Vec2 verts[4];
 	verts[0].Set(0, 0);
-	verts[1].Set(10, 0);
-	verts[2].Set(10, 10);
-	verts[3].Set(0, 10);
+	verts[1].Set(20, 0);
+	verts[2].Set(20, 15);
+	verts[3].Set(0, 15);
 	b2ChainShape chainShape;
 	chainShape.CreateLoop(verts, 4);
 

@@ -22,8 +22,8 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 
 	// The leg
 	m_legBodyDef.type = b2_dynamicBody;
-	m_legBodyDef.gravityScale = 0.0f;
-	m_legBodyDef.position.Set(3.0f, 4.0f);
+	//m_legBodyDef.gravityScale = 0.0f;
+	m_legBodyDef.position.Set(0.25f, 0.65f);
 
 	m_legBody = m_world->CreateBody(&m_legBodyDef);
 
@@ -40,19 +40,22 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 	m_legShape.setFillColor(sf::Color::Red);
 
 	// Joint
-	m_jointDef.bodyA = m_body;
-	m_jointDef.bodyB = m_legBody;
-	m_jointDef.collideConnected = false;
-	m_jointDef.localAnchorB = m_body->GetWorldCenter();
-	m_jointDef.referenceAngle = 0;
-	m_jointDef.enableLimit = true;
-	m_jointDef.lowerAngle = 140 * b2_pi / 180;
-	m_jointDef.upperAngle = 245 * b2_pi / 180;
-	m_jointDef.enableMotor = true;
-	m_jointDef.maxMotorTorque = 20;
-	m_jointDef.motorSpeed = 360 * b2_pi / 180;
+	b2RevoluteJointDef jointDef;
+	jointDef.Initialize(m_body, m_legBody, m_body->GetWorldCenter());
 
-	m_joint = (b2RevoluteJoint*)m_world->CreateJoint(&m_jointDef);
+	//jointDef.bodyA = m_body;
+	//jointDef.bodyB = m_legBody;
+	//jointDef.collideConnected = false;
+	//jointDef.localAnchorB = m_body->GetWorldCenter();
+	jointDef.referenceAngle = 0;
+	jointDef.enableLimit = true;
+	jointDef.lowerAngle = -90 * b2_pi / 180;
+	jointDef.upperAngle = 0 * b2_pi / 180;
+	jointDef.enableMotor = true;
+	jointDef.maxMotorTorque = 3;
+	jointDef.motorSpeed = 10 * b2_pi / 180;
+
+	m_joint = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef);
 
 	m_kick = false;
 	m_vel = 0;
@@ -77,8 +80,10 @@ void Player::update()
 	switch (m_kick)
 	{
 	case 1:
+		//m_joint->EnableMotor(true);
 		m_joint->SetMotorSpeed(-10.0f); break;
 	case 0:
+		//m_joint->EnableMotor(false);
 		m_joint->SetMotorSpeed(10.0f); break;
 	}
 }

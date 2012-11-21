@@ -22,7 +22,7 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 
 	// The leg
 	m_legBodyDef.type = b2_dynamicBody;
-	//m_legBodyDef.gravityScale = 0.0f;
+	m_legBodyDef.gravityScale = 0.0f;
 	m_legBodyDef.position.Set(0.25f, 0.65f);
 
 	m_legBody = m_world->CreateBody(&m_legBodyDef);
@@ -52,7 +52,7 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 	jointDef.lowerAngle = -90 * b2_pi / 180;
 	jointDef.upperAngle = 0 * b2_pi / 180;
 	jointDef.enableMotor = true;
-	jointDef.maxMotorTorque = 3;
+	jointDef.maxMotorTorque = 2;
 	jointDef.motorSpeed = 10 * b2_pi / 180;
 
 	m_joint = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef);

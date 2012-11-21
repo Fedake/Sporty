@@ -82,7 +82,6 @@ void Engine::input()
 		m_player->handleInput(&ev);
 		if(ev.type == sf::Event::Closed)
 		{
-			//delete m_player;
 			m_win->close();
 		}
 		if(ev.type == sf::Event::KeyPressed)

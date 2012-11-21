@@ -39,7 +39,7 @@ Engine::Engine(int w, int h, int bpp)
 
 	m_groundShape.setSize(sf::Vector2f(20*MTP, 2*MTP));
 	m_groundShape.setOrigin(10*MTP, 1.0*MTP);
-	m_groundShape.setFillColor(sf::Color::Blue);
+	m_groundShape.setFillColor(sf::Color(0, 150, 0));
 	
 	m_groundShape.setPosition(m_groundBody->GetPosition().x*MTP, m_groundBody->GetPosition().y*MTP);
 
@@ -122,7 +122,7 @@ void Engine::update(sf::Time dt)
 
 void Engine::render()
 {
-	m_win->clear(sf::Color::Black);
+	m_win->clear(sf::Color(111, 188, 204));
 
 	m_win->draw(m_groundShape);
 	m_playerL->render();

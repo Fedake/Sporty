@@ -18,7 +18,7 @@ class Player
 		b2BodyDef m_bodyDef;
 		b2CircleShape m_dynamicBox;
 		b2FixtureDef m_fixtureDef;
-		sf::CircleShape m_shape;
+		sf::Sprite m_sprite;
 		
 		// Leg
 		b2Body* m_legBody;
@@ -26,6 +26,7 @@ class Player
 		b2PolygonShape m_legDynamicBox;
 		b2FixtureDef m_legFixtureDef;
 		sf::RectangleShape m_legShape;
+		sf::Sprite m_legSprite;
 
 		// Joint
 		b2RevoluteJointDef m_jointDef;

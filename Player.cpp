@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include "ResourceManager.h"
 
 Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(world), m_win(win)
 {
@@ -16,14 +16,14 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 	m_fixtureDef.friction = 0.3f;
 	m_body->CreateFixture(&m_fixtureDef);
 
-	m_shape.setRadius(0.5*MTP);
-	m_shape.setOrigin(0.5*MTP, 0.5*MTP);
-	m_shape.setFillColor(sf::Color::Red);
+	m_sprite.setOrigin(0.5*MTP, 0.5*MTP);
+	m_sprite.setTexture(*ResourceManager::get()->getEntityTex(1));
+	m_sprite.setScale(-1, 1);
 
 	// The leg
 	m_legBodyDef.type = b2_dynamicBody;
 	m_legBodyDef.gravityScale = 0.0f;
-	m_legBodyDef.position.Set(0.5f, 1.1f);
+	m_legBodyDef.position.Set(0.5f, 1.2f);
 
 	m_legBody = m_world->CreateBody(&m_legBodyDef);
 
@@ -39,6 +39,9 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 	m_legShape.setSize(sf::Vector2f(0.4*MTP, 0.4*MTP));
 	m_legShape.setOrigin(0.2*MTP, 0.2*MTP);
 	m_legShape.setFillColor(sf::Color::Red);
+
+	m_legSprite.setOrigin(0.2*MTP, 0.2*MTP);
+	m_legSprite.setTexture(*ResourceManager::get()->getEntityTex(2));
 
 	// Joint
 	b2RevoluteJointDef jointDef;
@@ -121,9 +124,13 @@ void Player::handleInput(sf::Event* event)
 
 void Player::render()
 {
-	m_shape.setPosition(m_body->GetPosition().x*MTP, m_body->GetPosition().y*MTP);
+	m_sprite.setPosition(m_body->GetPosition().x*MTP, m_body->GetPosition().y*MTP);
 	m_legShape.setPosition(m_legBody->GetPosition().x*MTP, m_legBody->GetPosition().y*MTP);
 	m_legShape.setRotation(180*m_legBody->GetAngle()/b2_pi);
-	m_win->draw(m_shape);
+	m_legSprite.setPosition(m_legBody->GetPosition().x*MTP, m_legBody->GetPosition().y*MTP);
+	m_legSprite.setRotation(180*m_legBody->GetAngle()/b2_pi);
+
+	m_win->draw(m_sprite);
 	m_win->draw(m_legShape);
+	m_win->draw(m_legSprite);
 }

@@ -21,10 +21,10 @@ Engine::Engine(int w, int h, int bpp)
 
 	// Ground
 	m_groundBodyDef.type = b2_staticBody;
-	m_groundBodyDef.position.Set(5.0f, 15.0f);
+	m_groundBodyDef.position.Set(5.0f, 7.0f);
 	m_groundBody = m_world->CreateBody(&m_groundBodyDef);
 
-	m_groundBox.SetAsBox(10.0f, 0.5f);
+	m_groundBox.SetAsBox(5.0f, 0.5f);
 
 	m_groundFixtureDef.shape = &m_groundBox;
 	m_groundFixtureDef.density = 1.0f;
@@ -32,8 +32,8 @@ Engine::Engine(int w, int h, int bpp)
 	m_groundFixtureDef.filter.groupIndex = -8;
 	m_groundBody->CreateFixture(&m_groundFixtureDef);
 
-	m_groundShape.setSize(sf::Vector2f(20*MTP, 1*MTP));
-	m_groundShape.setOrigin(10*MTP, 0.5*MTP);
+	m_groundShape.setSize(sf::Vector2f(10*MTP, 1*MTP));
+	m_groundShape.setOrigin(5*MTP, 0.5*MTP);
 	m_groundShape.setFillColor(sf::Color::Blue);
 	
 	m_groundShape.setPosition(m_groundBody->GetPosition().x*MTP, m_groundBody->GetPosition().y*MTP);
@@ -48,9 +48,9 @@ Engine::Engine(int w, int h, int bpp)
 
 	b2Vec2 verts[4];
 	verts[0].Set(0, 0);
-	verts[1].Set(20, 0);
-	verts[2].Set(20, 15);
-	verts[3].Set(0, 15);
+	verts[1].Set(10, 0);
+	verts[2].Set(10, 10);
+	verts[3].Set(0, 10);
 	b2ChainShape chainShape;
 	chainShape.CreateLoop(verts, 4);
 
@@ -80,7 +80,11 @@ void Engine::input()
 	while (m_win->pollEvent(ev))
 	{
 		m_player->handleInput(&ev);
-		if(ev.type == sf::Event::Closed) m_win->close();
+		if(ev.type == sf::Event::Closed)
+		{
+			delete m_player;
+			m_win->close();
+		}
 		if(ev.type == sf::Event::KeyPressed)
 		{
 		}

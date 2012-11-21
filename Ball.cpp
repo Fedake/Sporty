@@ -8,7 +8,7 @@ Ball::Ball(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(world), 
 	m_bodyDef.position.Set(3.0f, 0.0f);
 	m_body = m_world->CreateBody(&m_bodyDef);
 
-	m_dynamicBox.m_radius = 0.25f;
+	m_dynamicBox.m_radius = 0.125f;
 	
 	m_fixtureDef.shape = &m_dynamicBox;
 	m_fixtureDef.density = 0.5f;
@@ -16,7 +16,7 @@ Ball::Ball(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(world), 
 	m_fixtureDef.restitution = 0.5f;
 	m_body->CreateFixture(&m_fixtureDef);
 
-	m_sprite.setOrigin(0.25*MTP, 0.25*MTP);
+	m_sprite.setOrigin(0.125*MTP, 0.125*MTP);
 	m_sprite.setTexture(*ResourceManager::get()->getEntityTex(0));
 }
 

@@ -5,29 +5,29 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 {
 	// Body
 	m_bodyDef.type = b2_dynamicBody;
-	m_bodyDef.position.Set(1.0f, 0.0f);
+	m_bodyDef.position.Set(0.25f, 0.25f);
 	m_bodyDef.fixedRotation = true;
 	m_body = m_world->CreateBody(&m_bodyDef);
 
-	m_dynamicBox.m_radius = 1.0f;
+	m_dynamicBox.m_radius = 0.25f;
 	
 	m_fixtureDef.shape = &m_dynamicBox;
 	m_fixtureDef.density = 1.0f;
 	m_fixtureDef.friction = 0.3f;
 	m_body->CreateFixture(&m_fixtureDef);
 
-	m_shape.setRadius(1*MTP);
-	m_shape.setOrigin(1*MTP, 1*MTP);
+	m_shape.setRadius(0.25*MTP);
+	m_shape.setOrigin(0.25*MTP, 0.25*MTP);
 	m_shape.setFillColor(sf::Color::Red);
 
 	// The leg
 	m_legBodyDef.type = b2_dynamicBody;
 	m_legBodyDef.gravityScale = 0.0f;
-	m_legBodyDef.position.Set(2.0f, 0.0f);
+	m_legBodyDef.position.Set(3.0f, 4.0f);
 
 	m_legBody = m_world->CreateBody(&m_legBodyDef);
 
-	m_legDynamicBox.SetAsBox(0.4f, 0.3f);
+	m_legDynamicBox.SetAsBox(0.1f, 0.1f);
 
 	m_legFixtureDef.shape = &m_legDynamicBox;
 	m_legFixtureDef.density = 1.0f;
@@ -35,8 +35,8 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 	m_legFixtureDef.filter.groupIndex = -8;
 	m_legBody->CreateFixture(&m_legFixtureDef);
 
-	m_legShape.setSize(sf::Vector2f(0.8*MTP, 0.6*MTP));
-	m_legShape.setOrigin(0.4*MTP, 0.3*MTP);
+	m_legShape.setSize(sf::Vector2f(0.2*MTP, 0.2*MTP));
+	m_legShape.setOrigin(0.1*MTP, 0.1*MTP);
 	m_legShape.setFillColor(sf::Color::Red);
 
 	// Joint
@@ -46,7 +46,7 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 	m_jointDef.localAnchorB = m_body->GetWorldCenter();
 	m_jointDef.referenceAngle = 0;
 	m_jointDef.enableLimit = true;
-	m_jointDef.lowerAngle = 160 * b2_pi / 180;
+	m_jointDef.lowerAngle = 140 * b2_pi / 180;
 	m_jointDef.upperAngle = 245 * b2_pi / 180;
 	m_jointDef.enableMotor = true;
 	m_jointDef.maxMotorTorque = 20;
@@ -66,24 +66,20 @@ void Player::update()
 	switch (m_vel)
 	{
 	case -1:
-		if (vel.x > -5) force = -50; break;
+		if (vel.x > -2) force = -20; break;
 	case 1:
-		if (vel.x < 5) force =  50; break;
+		if (vel.x < 2) force =  20; break;
 	case 0:
 		force = vel.x * -10; break;
 	}
 	m_body->ApplyForce(b2Vec2(force, 0), m_body->GetWorldCenter());
 
-
-	vel = m_legBody->GetLinearVelocity();
-	force = 0;
-
 	switch (m_kick)
 	{
 	case 1:
-		m_joint->SetMotorSpeed(-30.0f); break;
+		m_joint->SetMotorSpeed(-10.0f); break;
 	case 0:
-		m_joint->SetMotorSpeed(30.0f); break;
+		m_joint->SetMotorSpeed(10.0f); break;
 	}
 }
 
@@ -99,8 +95,8 @@ void Player::handleInput(sf::Event* event)
 			m_vel += 1; break;
 		case sf::Keyboard::Space:
 			m_kick = true; break;
-		case sf::Keyboard::W:
-			m_body->SetLinearVelocity(b2Vec2(0, -10));
+		case sf::Keyboard::Up:
+			m_body->ApplyLinearImpulse(b2Vec2(0, -2), m_body->GetWorldCenter());
 		}
 	}
 	if (event->type == sf::Event::KeyReleased)

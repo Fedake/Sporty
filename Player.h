@@ -5,7 +5,7 @@
 #include <math.h>
 #include <iostream>
 
-#define MTP 40
+#define MTP 80
 
 class Player
 {

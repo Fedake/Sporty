@@ -36,7 +36,7 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 	m_legFixtureDef.shape = &m_legDynamicBox;
 	m_legFixtureDef.density = 1.0f;
 	m_legFixtureDef.friction = 0.1f;
-	m_legFixtureDef.restitution = 2.0f;
+	m_legFixtureDef.restitution = 0.5f;
 	m_legFixtureDef.filter.groupIndex = -8;
 	m_legBody->CreateFixture(&m_legFixtureDef);
 

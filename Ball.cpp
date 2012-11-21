@@ -9,14 +9,19 @@ Ball::Ball(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(world), 
 	b2BodyDef m_bodyDef;
 	m_bodyDef.type = b2_dynamicBody;
 	m_bodyDef.position.Set(6.0f, 1.0f);
+	m_bodyDef.linearDamping = 0.3;
+	m_bodyDef.bullet = true;
 	m_body = m_world->CreateBody(&m_bodyDef);
-
-	m_dynamicBox.m_radius = 0.25f;
 	
 	b2FixtureDef m_fixtureDef;
 	m_fixtureDef.shape = &m_dynamicBox;
 	m_fixtureDef.density = 0.4f;
 	m_fixtureDef.friction = 0.3f;
+
+	m_dynamicBox.m_radius = 0.25f;
+
+	m_fixtureDef.density = 0.2f;
+	m_fixtureDef.friction = 0.5f;
 	m_fixtureDef.restitution = 0.5f;
 	m_body->CreateFixture(&m_fixtureDef);
 	

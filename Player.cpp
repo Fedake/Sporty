@@ -14,7 +14,7 @@ Player::Player(b2Vec2 pos, int facing, b2World* world, sf::RenderWindow* win) : 
 	
 	b2FixtureDef m_fixtureDef;
 	m_fixtureDef.shape = &m_dynamicBox;
-	m_fixtureDef.density = 4.0f;
+	m_fixtureDef.density = 6.0f;
 	m_fixtureDef.friction = 0.3f;
 	m_body->CreateFixture(&m_fixtureDef);
 
@@ -36,7 +36,7 @@ Player::Player(b2Vec2 pos, int facing, b2World* world, sf::RenderWindow* win) : 
 	m_legFixtureDef.shape = &m_legDynamicBox;
 	m_legFixtureDef.density = 1.0f;
 	m_legFixtureDef.friction = 0.1f;
-	m_legFixtureDef.restitution = 0.5f;
+	m_legFixtureDef.restitution = 1.0f;
 	m_legFixtureDef.filter.groupIndex = -8;
 	m_legBody->CreateFixture(&m_legFixtureDef);
 
@@ -67,7 +67,7 @@ Player::Player(b2Vec2 pos, int facing, b2World* world, sf::RenderWindow* win) : 
 	}
 
 	jointDef.enableMotor = true;
-	jointDef.maxMotorTorque = 8;
+	jointDef.maxMotorTorque = 10;
 	//jointDef.motorSpeed = 60*m_facing * b2_pi / 180;
 
 	m_joint = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef);
@@ -84,11 +84,11 @@ void Player::update()
 	switch (m_vel)
 	{
 	case -1:
-		if (vel.x > -4) force = -80; break;
+		if (vel.x > -4) force = -150; break;
 	case 1:
-		if (vel.x < 4) force =  80; break;
+		if (vel.x < 4) force =  150; break;
 	case 0:
-		force = vel.x * -10; break;
+		force = vel.x * -20; break;
 	}
 	m_body->ApplyForce(b2Vec2(force, 0), m_body->GetWorldCenter());
 
@@ -96,7 +96,7 @@ void Player::update()
 	{
 	case 1:
 		//m_joint->EnableMotor(true);
-		m_joint->SetMotorSpeed(-60.0f*m_facing); break;
+		m_joint->SetMotorSpeed(-80.0f*m_facing); break;
 	case 0:
 		//m_joint->EnableMotor(false);
 		m_joint->SetMotorSpeed(40.0f*m_facing); break;
@@ -112,7 +112,7 @@ void Player::handleInput(sf::Event* event)
 			if(event->key.code == sf::Keyboard::A) m_vel -= 1;
 			if(event->key.code == sf::Keyboard::D)	m_vel += 1;
 			if(event->key.code == sf::Keyboard::Space) m_kick = true;
-			if(event->key.code == sf::Keyboard::W) m_body->ApplyLinearImpulse(b2Vec2(0, -12), m_body->GetWorldCenter());
+			if(event->key.code == sf::Keyboard::W) m_body->ApplyLinearImpulse(b2Vec2(0, -20), m_body->GetWorldCenter());
 		}
 		if (event->type == sf::Event::KeyReleased)
 		{
@@ -129,7 +129,7 @@ void Player::handleInput(sf::Event* event)
 			if(event->key.code == sf::Keyboard::Left) m_vel -= 1;
 			if(event->key.code == sf::Keyboard::Right)	m_vel += 1;
 			if(event->key.code == sf::Keyboard::P) m_kick = true;
-			if(event->key.code == sf::Keyboard::Up) m_body->ApplyLinearImpulse(b2Vec2(0, -12), m_body->GetWorldCenter());
+			if(event->key.code == sf::Keyboard::Up) m_body->ApplyLinearImpulse(b2Vec2(0, -20), m_body->GetWorldCenter());
 		}
 		if (event->type == sf::Event::KeyReleased)
 		{

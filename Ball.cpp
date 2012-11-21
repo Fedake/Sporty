@@ -20,9 +20,9 @@ Ball::Ball(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(world), 
 
 	m_dynamicBox.m_radius = 0.25f;
 
-	m_fixtureDef.density = 0.2f;
+	m_fixtureDef.density = 0.4f;
 	m_fixtureDef.friction = 0.5f;
-	m_fixtureDef.restitution = 0.5f;
+	m_fixtureDef.restitution = 0.6f;
 	m_body->CreateFixture(&m_fixtureDef);
 	
 	m_sprite.setOrigin(0.25*MTP, 0.25*MTP);

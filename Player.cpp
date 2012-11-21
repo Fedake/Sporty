@@ -1,12 +1,12 @@
 #include "Player.h"
 #include "ResourceManager.h"
 
-Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(world), m_win(win)
+Player::Player(b2Vec2 pos, int facing, b2World* world, sf::RenderWindow* win) : m_world(world), m_win(win), m_facing(facing)
 {
 	// Body
 	b2BodyDef m_bodyDef;
 	m_bodyDef.type = b2_dynamicBody;
-	m_bodyDef.position.Set(5.0f, 5.0f);
+	m_bodyDef.position = pos;
 	m_bodyDef.fixedRotation = true;
 	m_body = m_world->CreateBody(&m_bodyDef);
 
@@ -20,7 +20,7 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 
 	m_sprite.setOrigin(0.5*MTP, 0.5*MTP);
 	m_sprite.setTexture(*ResourceManager::get()->getEntityTex(1));
-	m_sprite.setScale(-1, 1);
+	m_sprite.setScale(-1*m_facing, 1);
 
 	// The leg
 	b2BodyDef m_legBodyDef;
@@ -42,6 +42,7 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 
 	m_legSprite.setOrigin(0.2*MTP, 0.15*MTP);
 	m_legSprite.setTexture(*ResourceManager::get()->getEntityTex(2));
+	m_legSprite.setScale(m_facing, 1);
 
 	// Joint
 	b2RevoluteJointDef jointDef;
@@ -53,11 +54,21 @@ Player::Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win) : m_world(worl
 	//jointDef.localAnchorB = m_body->GetWorldCenter();
 	jointDef.referenceAngle = 0;
 	jointDef.enableLimit = true;
-	jointDef.lowerAngle = -100 * b2_pi / 180;
-	jointDef.upperAngle = 20 * b2_pi / 180;
+
+	if(m_facing == 1)
+	{
+		jointDef.lowerAngle = -100 * b2_pi / 180;
+		jointDef.upperAngle = 20 * b2_pi / 180;
+	}
+	if(m_facing == -1)
+	{
+		jointDef.lowerAngle = -20 * b2_pi / 180;
+		jointDef.upperAngle = 100 * b2_pi / 180;
+	}
+
 	jointDef.enableMotor = true;
 	jointDef.maxMotorTorque = 8;
-	jointDef.motorSpeed = 60 * b2_pi / 180;
+	//jointDef.motorSpeed = 60*m_facing * b2_pi / 180;
 
 	m_joint = (b2RevoluteJoint*)m_world->CreateJoint(&jointDef);
 
@@ -85,28 +96,48 @@ void Player::update()
 	{
 	case 1:
 		//m_joint->EnableMotor(true);
-		m_joint->SetMotorSpeed(-60.0f); break;
+		m_joint->SetMotorSpeed(-60.0f*m_facing); break;
 	case 0:
 		//m_joint->EnableMotor(false);
-		m_joint->SetMotorSpeed(40.0f); break;
+		m_joint->SetMotorSpeed(40.0f*m_facing); break;
 	}
 }
 
 void Player::handleInput(sf::Event* event)
 {
-	if (event->type == sf::Event::KeyPressed)
+	if(m_facing == 1)
 	{
-		if(event->key.code == sf::Keyboard::A) m_vel -= 1;
-		if(event->key.code == sf::Keyboard::D)	m_vel += 1;
-		if(event->key.code == sf::Keyboard::Space) m_kick = true;
-		if(event->key.code == sf::Keyboard::W) m_body->ApplyLinearImpulse(b2Vec2(0, -12), m_body->GetWorldCenter());
-	}
-	if (event->type == sf::Event::KeyReleased)
-	{
+		if (event->type == sf::Event::KeyPressed)
+		{
+			if(event->key.code == sf::Keyboard::A) m_vel -= 1;
+			if(event->key.code == sf::Keyboard::D)	m_vel += 1;
+			if(event->key.code == sf::Keyboard::Space) m_kick = true;
+			if(event->key.code == sf::Keyboard::W) m_body->ApplyLinearImpulse(b2Vec2(0, -12), m_body->GetWorldCenter());
+		}
+		if (event->type == sf::Event::KeyReleased)
+		{
 
-		if(event->key.code == sf::Keyboard::A) m_vel += 1;
-		if(event->key.code == sf::Keyboard::D)	m_vel -= 1;
-		if(event->key.code == sf::Keyboard::Space) m_kick = false;
+			if(event->key.code == sf::Keyboard::A) m_vel += 1;
+			if(event->key.code == sf::Keyboard::D)	m_vel -= 1;
+			if(event->key.code == sf::Keyboard::Space) m_kick = false;
+		}
+	}
+	if(m_facing == -1)
+	{
+		if (event->type == sf::Event::KeyPressed)
+		{
+			if(event->key.code == sf::Keyboard::Left) m_vel -= 1;
+			if(event->key.code == sf::Keyboard::Right)	m_vel += 1;
+			if(event->key.code == sf::Keyboard::P) m_kick = true;
+			if(event->key.code == sf::Keyboard::Up) m_body->ApplyLinearImpulse(b2Vec2(0, -12), m_body->GetWorldCenter());
+		}
+		if (event->type == sf::Event::KeyReleased)
+		{
+
+			if(event->key.code == sf::Keyboard::Left) m_vel += 1;
+			if(event->key.code == sf::Keyboard::Right)	m_vel -= 1;
+			if(event->key.code == sf::Keyboard::P) m_kick = false;
+		}
 	}
 }
 

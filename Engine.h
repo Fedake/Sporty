@@ -16,7 +16,8 @@ class Engine
 		float32 timeStep;
 
 		// Player
-		Player* m_player;
+		Player* m_playerL;
+		Player* m_playerR;
 		Ball* m_ball;
 
 		// Ground

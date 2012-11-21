@@ -16,7 +16,10 @@ Engine::Engine(int w, int h, int bpp)
 	m_gravity.Set(0, 7);
 	m_world = new b2World(m_gravity);
 
-	m_player = new Player(b2Vec2(1.0f, 0.0f), m_world, m_win);
+	m_playerL = new Player(b2Vec2(2.0f, 2.0f), 1, m_world, m_win);
+	m_playerR = new Player(b2Vec2(10.0f, 2.0f), -1, m_world, m_win);
+
+
 	m_ball = new Ball(b2Vec2(3.0f, 0.0f), m_world, m_win);
 
 	// Ground
@@ -81,7 +84,8 @@ void Engine::input()
 	sf::Event ev;
 	while (m_win->pollEvent(ev))
 	{
-		m_player->handleInput(&ev);
+		m_playerL->handleInput(&ev);
+		m_playerR->handleInput(&ev);		
 		if(ev.type == sf::Event::Closed)
 		{
 			m_win->close();
@@ -110,7 +114,8 @@ void Engine::input()
 
 void Engine::update(sf::Time dt)
 {
-	m_player->update();
+	m_playerL->update();
+	m_playerR->update();
 
 	m_world->Step(timeStep, 6, 2);
 }
@@ -120,7 +125,9 @@ void Engine::render()
 	m_win->clear(sf::Color::Black);
 
 	m_win->draw(m_groundShape);
-	m_player->render();
+	m_playerL->render();
+	m_playerR->render();
+
 	m_ball->render();
 
 	m_win->display();

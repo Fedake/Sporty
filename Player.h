@@ -31,8 +31,10 @@ class Player
 		int m_vel;
 		bool m_kick;
 
+		int m_facing;
+
 	public:
-		Player(b2Vec2 pos, b2World* world, sf::RenderWindow* win);
+		Player(b2Vec2 pos, int facing, b2World* world, sf::RenderWindow* win);
 
 		void update();
 		void handleInput(sf::Event* event);

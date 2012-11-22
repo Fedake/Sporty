@@ -13,7 +13,7 @@ Engine::Engine(int w, int h, int bpp)
 
 	//m_info.setCharacterSize(15);
 
-	m_gravity.Set(0, 7);
+	m_gravity.Set(0, 8);
 	m_world = new b2World(m_gravity);
 
 	m_playerL = new Player(b2Vec2(2.0f, 2.0f), 1, m_world, m_win);
@@ -21,6 +21,23 @@ Engine::Engine(int w, int h, int bpp)
 
 
 	m_ball = new Ball(b2Vec2(3.0f, 0.0f), m_world, m_win);
+
+	// World endings
+	b2BodyDef chainDef;
+	chainDef.type = b2_staticBody;
+	chainDef.position.Set(0, 0);
+
+	m_chain = m_world->CreateBody(&chainDef);
+
+	b2Vec2 verts[4];
+	verts[0].Set(0, 0);
+	verts[1].Set(20, 0);
+	verts[2].Set(20, 15);
+	verts[3].Set(0, 15);
+	b2ChainShape chainShape;
+	chainShape.CreateLoop(verts, 4);
+
+	m_chain->CreateFixture(&chainShape, 0.0f);
 
 	// Ground
 	b2BodyDef m_groundBodyDef;
@@ -42,24 +59,6 @@ Engine::Engine(int w, int h, int bpp)
 	m_groundShape.setFillColor(sf::Color(0, 150, 0));
 	
 	m_groundShape.setPosition(m_groundBody->GetPosition().x*MTP, m_groundBody->GetPosition().y*MTP);
-
-	
-
-	b2BodyDef chainDef;
-	chainDef.type = b2_staticBody;
-	chainDef.position.Set(0, 0);
-
-	m_chain = m_world->CreateBody(&chainDef);
-
-	b2Vec2 verts[4];
-	verts[0].Set(0, 0);
-	verts[1].Set(20, 0);
-	verts[2].Set(20, 15);
-	verts[3].Set(0, 15);
-	b2ChainShape chainShape;
-	chainShape.CreateLoop(verts, 4);
-
-	m_chain->CreateFixture(&chainShape, 0.0f);
 
 	// Step
 	timeStep = 1.0f / 60.0f;

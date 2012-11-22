@@ -10,7 +10,7 @@ Player::Player(b2Vec2 pos, int facing, b2World* world, sf::RenderWindow* win) : 
 	m_bodyDef.fixedRotation = true;
 	m_body = m_world->CreateBody(&m_bodyDef);
 
-	m_dynamicBox.m_radius = 0.5f;
+	m_dynamicBox.m_radius = 0.55f;
 	
 	b2FixtureDef m_fixtureDef;
 	m_fixtureDef.shape = &m_dynamicBox;
@@ -18,7 +18,7 @@ Player::Player(b2Vec2 pos, int facing, b2World* world, sf::RenderWindow* win) : 
 	m_fixtureDef.friction = 0.3f;
 	m_body->CreateFixture(&m_fixtureDef);
 
-	m_sprite.setOrigin(0.5*MTP, 0.5*MTP);
+	m_sprite.setOrigin(0.55*MTP, 0.55*MTP);
 	m_sprite.setTexture(*ResourceManager::get()->getEntityTex(1));
 	m_sprite.setScale(-1*m_facing, 1);
 
@@ -88,7 +88,7 @@ void Player::update()
 	case 1:
 		if (vel.x < 4) force =  150; break;
 	case 0:
-		force = vel.x * -20; break;
+		force = vel.x * -30; break;
 	}
 	m_body->ApplyForce(b2Vec2(force, 0), m_body->GetWorldCenter());
 
@@ -99,7 +99,7 @@ void Player::update()
 		m_joint->SetMotorSpeed(-80.0f*m_facing); break;
 	case 0:
 		//m_joint->EnableMotor(false);
-		m_joint->SetMotorSpeed(40.0f*m_facing); break;
+		m_joint->SetMotorSpeed(10.0f*m_facing); break;
 	}
 }
 
@@ -112,7 +112,7 @@ void Player::handleInput(sf::Event* event)
 			if(event->key.code == sf::Keyboard::A) m_vel -= 1;
 			if(event->key.code == sf::Keyboard::D)	m_vel += 1;
 			if(event->key.code == sf::Keyboard::Space) m_kick = true;
-			if(event->key.code == sf::Keyboard::W) m_body->ApplyLinearImpulse(b2Vec2(0, -21), m_body->GetWorldCenter());
+			if(event->key.code == sf::Keyboard::W) m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)), m_body->GetWorldCenter());
 		}
 		if (event->type == sf::Event::KeyReleased)
 		{
@@ -129,7 +129,7 @@ void Player::handleInput(sf::Event* event)
 			if(event->key.code == sf::Keyboard::Left) m_vel -= 1;
 			if(event->key.code == sf::Keyboard::Right)	m_vel += 1;
 			if(event->key.code == sf::Keyboard::P) m_kick = true;
-			if(event->key.code == sf::Keyboard::Up) m_body->ApplyLinearImpulse(b2Vec2(0, -21), m_body->GetWorldCenter());
+			if(event->key.code == sf::Keyboard::Up) m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)), m_body->GetWorldCenter());
 		}
 		if (event->type == sf::Event::KeyReleased)
 		{

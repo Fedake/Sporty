@@ -114,7 +114,8 @@ void Player::handleInput(sf::Event* event)
 			if(event->key.code == sf::Keyboard::D)	m_vel += 1;
 			if(event->key.code == sf::Keyboard::Space) m_kick = true;
 			if(event->key.code == sf::Keyboard::W) 
-				if (m_standing) m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)), m_body->GetWorldCenter());
+				//if (m_standing)
+				 m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)), m_body->GetWorldCenter());
 		}
 		if (event->type == sf::Event::KeyReleased)
 		{

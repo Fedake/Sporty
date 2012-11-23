@@ -24,6 +24,9 @@ Engine::Engine(int w, int h, int bpp)
 	
 	m_ball = new Ball(b2Vec2(3.0f, 0.0f), 2, m_world, m_win);
 
+	m_goal[0] = new Goal(b2Vec2(0.75, 10.6), 1, m_world, m_win);
+	m_goal[1] = new Goal(b2Vec2(19.25, 10.6), -1, m_world, m_win);
+
 	// World endings
 	b2BodyDef chainDef;
 	chainDef.type = b2_staticBody;
@@ -109,6 +112,9 @@ void Engine::render()
 	m_playerR->render();
 
 	m_ball->render();
+
+	m_goal[0]->render();
+	m_goal[1]->render();
 
 	m_win->display();
 }

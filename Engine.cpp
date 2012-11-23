@@ -16,11 +16,13 @@ Engine::Engine(int w, int h, int bpp)
 	m_gravity.Set(0, 8);
 	m_world = new b2World(m_gravity);
 
-	m_playerL = new Player(b2Vec2(2.0f, 2.0f), 1, m_world, m_win);
-	m_playerR = new Player(b2Vec2(10.0f, 2.0f), -1, m_world, m_win);
 
+	m_ground = new Ground(b2Vec2(10.0f, 14.0f), 3, m_world, m_win);
+	m_playerL = new Player(b2Vec2(2.0f, 2.0f), 1, 1, m_world, m_win);
+	m_playerR = new Player(b2Vec2(10.0f, 2.0f), -1, 1, m_world, m_win);
 
-	m_ball = new Ball(b2Vec2(3.0f, 0.0f), m_world, m_win);
+	
+	m_ball = new Ball(b2Vec2(3.0f, 0.0f), 2, m_world, m_win);
 
 	// World endings
 	b2BodyDef chainDef;
@@ -38,27 +40,6 @@ Engine::Engine(int w, int h, int bpp)
 	chainShape.CreateLoop(verts, 4);
 
 	m_chain->CreateFixture(&chainShape, 0.0f);
-
-	// Ground
-	b2BodyDef m_groundBodyDef;
-	m_groundBodyDef.type = b2_staticBody;
-	m_groundBodyDef.position.Set(10.0f, 14.0f);
-	m_groundBody = m_world->CreateBody(&m_groundBodyDef);
-
-	m_groundBox.SetAsBox(10.0f, 1.0f);
-	
-	b2FixtureDef m_groundFixtureDef;
-	m_groundFixtureDef.shape = &m_groundBox;
-	m_groundFixtureDef.density = 1.0f;
-	m_groundFixtureDef.friction = 0.3f;
-	m_groundFixtureDef.filter.groupIndex = -8;
-	m_groundBody->CreateFixture(&m_groundFixtureDef);
-
-	m_groundShape.setSize(sf::Vector2f(20*MTP, 2*MTP));
-	m_groundShape.setOrigin(10*MTP, 1.0*MTP);
-	m_groundShape.setFillColor(sf::Color(0, 150, 0));
-	
-	m_groundShape.setPosition(m_groundBody->GetPosition().x*MTP, m_groundBody->GetPosition().y*MTP);
 
 	// Step
 	timeStep = 1.0f / 60.0f;
@@ -123,7 +104,7 @@ void Engine::render()
 {
 	m_win->clear(sf::Color(111, 188, 204));
 
-	m_win->draw(m_groundShape);
+	m_ground->render();
 	m_playerL->render();
 	m_playerR->render();
 

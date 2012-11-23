@@ -5,19 +5,11 @@
 #include <math.h>
 #include <iostream>
 
-#define MTP 40
+#include "Entity.h"
 
-class Player
+class Player : public Entity
 {
 	private:
-		b2World* m_world;
-		sf::RenderWindow* m_win;
-
-		// Body
-		b2Body* m_body;
-		b2CircleShape m_dynamicBox;
-		sf::Sprite m_sprite;
-		
 		// Leg
 		b2Body* m_legBody;
 		b2PolygonShape m_legDynamicBox;
@@ -33,11 +25,16 @@ class Player
 
 		int m_facing;
 
+		bool m_standing;
+
 	public:
-		Player(b2Vec2 pos, int facing, b2World* world, sf::RenderWindow* win);
+		Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindow* win);
 
 		void update();
 		void handleInput(sf::Event* event);
 		void render();
+
+		void startStanding() { m_standing = true; }
+		void endStanding() { m_standing = false; }
 };
 

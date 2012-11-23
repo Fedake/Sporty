@@ -4,6 +4,8 @@
 
 #include "Player.h"
 #include "Ball.h"
+#include "Ground.h"
+#include "ContactListener.h"
 
 #define MTP 40
 
@@ -19,11 +21,9 @@ class Engine
 		Player* m_playerL;
 		Player* m_playerR;
 		Ball* m_ball;
+		Ground* m_ground;
 
-		// Ground
-		b2Body* m_groundBody;
-		b2PolygonShape m_groundBox;
-		sf::RectangleShape m_groundShape;
+		SportowyContactListener contactListener;
 
 		//£añcuch xD
 		b2Body* m_chain;

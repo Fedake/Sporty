@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "ResourceManager.h"
 
-Player::Player(b2Vec2 pos, int facing, b2World* world, sf::RenderWindow* win) : m_world(world), m_win(win), m_facing(facing)
+Player::Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindow* win) : Entity(world, win, type), m_facing(facing)
 {
 	// Body
 	b2BodyDef m_bodyDef;
@@ -10,10 +10,10 @@ Player::Player(b2Vec2 pos, int facing, b2World* world, sf::RenderWindow* win) : 
 	m_bodyDef.fixedRotation = true;
 	m_body = m_world->CreateBody(&m_bodyDef);
 
-	m_dynamicBox.m_radius = 0.55f;
+	m_cBox.m_radius = 0.55f;
 	
 	b2FixtureDef m_fixtureDef;
-	m_fixtureDef.shape = &m_dynamicBox;
+	m_fixtureDef.shape = &m_cBox;
 	m_fixtureDef.density = 7.0f;
 	m_fixtureDef.friction = 0.3f;
 	m_body->CreateFixture(&m_fixtureDef);
@@ -74,6 +74,7 @@ Player::Player(b2Vec2 pos, int facing, b2World* world, sf::RenderWindow* win) : 
 
 	m_kick = false;
 	m_vel = 0;
+	m_standing = false;
 }
 
 void Player::update()
@@ -112,7 +113,8 @@ void Player::handleInput(sf::Event* event)
 			if(event->key.code == sf::Keyboard::A) m_vel -= 1;
 			if(event->key.code == sf::Keyboard::D)	m_vel += 1;
 			if(event->key.code == sf::Keyboard::Space) m_kick = true;
-			if(event->key.code == sf::Keyboard::W) m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)), m_body->GetWorldCenter());
+			if(event->key.code == sf::Keyboard::W) 
+				if (m_standing) m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)), m_body->GetWorldCenter());
 		}
 		if (event->type == sf::Event::KeyReleased)
 		{
@@ -129,7 +131,8 @@ void Player::handleInput(sf::Event* event)
 			if(event->key.code == sf::Keyboard::Left) m_vel -= 1;
 			if(event->key.code == sf::Keyboard::Right)	m_vel += 1;
 			if(event->key.code == sf::Keyboard::P) m_kick = true;
-			if(event->key.code == sf::Keyboard::Up) m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)), m_body->GetWorldCenter());
+			if(event->key.code == sf::Keyboard::Up) 
+				if (m_standing) m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)), m_body->GetWorldCenter());
 		}
 		if (event->type == sf::Event::KeyReleased)
 		{
@@ -147,7 +150,6 @@ void Player::render()
 
 	m_legSprite.setPosition(m_legBody->GetPosition().x*MTP, m_legBody->GetPosition().y*MTP);
 	m_legSprite.setRotation(180*m_legBody->GetAngle()/b2_pi);
-
 	m_win->draw(m_sprite);
 	m_win->draw(m_legSprite);
 }

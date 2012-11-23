@@ -24,6 +24,8 @@ Ball::Ball(b2Vec2 pos, int type, b2World* world, sf::RenderWindow* win) : Entity
 	m_fixtureDef.restitution = 0.6f;
 	m_body->CreateFixture(&m_fixtureDef);
 	
+	m_body->SetUserData(this);
+	
 	m_sprite.setOrigin(0.25*MTP, 0.25*MTP);
 	m_sprite.setTexture(*ResourceManager::get()->getEntityTex(0));
 }

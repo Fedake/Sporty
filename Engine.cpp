@@ -16,6 +16,7 @@ Engine::Engine(int w, int h, int bpp)
 	m_gravity.Set(0, 8);
 	m_world = new b2World(m_gravity);
 
+	m_world->SetContactListener(&contactListener);
 
 	m_ground = new Ground(b2Vec2(10.0f, 14.0f), 3, m_world, m_win);
 	m_playerL = new Player(b2Vec2(2.0f, 2.0f), 1, 1, m_world, m_win);

@@ -18,6 +18,8 @@ Player::Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindo
 	m_fixtureDef.friction = 0.3f;
 	m_body->CreateFixture(&m_fixtureDef);
 
+	m_body->SetUserData(this);
+
 	m_sprite.setOrigin(0.55*MTP, 0.55*MTP);
 	m_sprite.setTexture(*ResourceManager::get()->getEntityTex(1));
 	m_sprite.setScale(-1*m_facing, 1);

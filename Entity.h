@@ -26,5 +26,5 @@ class Entity
 		Entity(b2World* world, sf::RenderWindow* win, int type);
 		virtual void render();
 
-
+		int getType() { return m_type; }
 };

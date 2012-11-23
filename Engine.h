@@ -6,6 +6,7 @@
 #include "Ball.h"
 #include "Ground.h"
 #include "ContactListener.h"
+#include "Goal.h"
 
 #define MTP 40
 
@@ -22,6 +23,8 @@ class Engine
 		Player* m_playerR;
 		Ball* m_ball;
 		Ground* m_ground;
+		Goal* m_goal[2];
+
 
 		SportowyContactListener contactListener;
 

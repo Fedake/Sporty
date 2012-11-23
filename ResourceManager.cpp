@@ -14,6 +14,10 @@ ResourceManager::ResourceManager()
 	m_entTex.push_back(new sf::Texture());
 	m_entTex[2]->loadFromFile("data/tex/leg.png");
 	m_entTex[2]->setSmooth(true);
+
+	m_entTex.push_back(new sf::Texture());
+	m_entTex[3]->loadFromFile("data/tex/goal.png");
+	m_entTex[3]->setSmooth(true);
 }
 
 ResourceManager* ResourceManager::get()

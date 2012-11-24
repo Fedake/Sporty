@@ -24,20 +24,21 @@ void Engine::run()
 	delta.restart();
 	while(m_win->isOpen())
 	{
-		input();
+		if (input() == 1) break;
 		update(delta.getElapsedTime());
 		delta.restart();
 		render();
 	}
 }
 
-void Engine::input()
+int Engine::input()
 {
 	sf::Event ev;
 	while (m_win->pollEvent(ev))
 	{
-		m_level->handleInput(&ev);
+		if (m_level->handleInput(&ev) == 1) return 1;
 	}
+	return 0;
 }
 
 void Engine::update(sf::Time dt)

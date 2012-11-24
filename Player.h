@@ -31,6 +31,7 @@ class Player : public Entity
 
 	public:
 		Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindow* win);
+		~Player(void);
 
 		void update();
 		void handleInput(sf::Event* event);

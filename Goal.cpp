@@ -1,7 +1,7 @@
 #include "Goal.h"
 #include "ResourceManager.h"
 
-Goal::Goal(b2Vec2 pos, int facing, b2World* world, sf::RenderWindow* win) : Entity(world, win, 3), m_facing(facing)
+Goal::Goal(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindow* win) : Entity(world, win, type), m_facing(facing)
 {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_staticBody;
@@ -15,6 +15,8 @@ Goal::Goal(b2Vec2 pos, int facing, b2World* world, sf::RenderWindow* win) : Enti
 	fixtureDef.friction = 0.3f;
 	fixtureDef.filter.categoryBits = CATEGORY_CROSSBAR;
 	m_body->CreateFixture(&fixtureDef);
+
+	m_body->SetUserData(this);
 
 	m_sprite.setTexture(*ResourceManager::get()->getEntityTex(3));
 	m_sprite.setScale(m_facing, 1);

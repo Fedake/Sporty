@@ -13,8 +13,8 @@ Level::Level(sf::RenderWindow* win) : m_win(win)
 	
 	m_ball = new Ball(b2Vec2(3.0f, 0.0f), 2, m_world, m_win);
 
-	m_goal[0] = new Goal(b2Vec2(0.75f, 10.6f), 1, m_world, m_win);
-	m_goal[1] = new Goal(b2Vec2(19.25f, 10.6f), -1, m_world, m_win);
+	m_goal[0] = new Goal(b2Vec2(0.75f, 10.6f), 1, 4, m_world, m_win);
+	m_goal[1] = new Goal(b2Vec2(19.25f, 10.6f), -1, 4, m_world, m_win);
 
 	m_buffMgr = new BuffManager(m_world, m_win);
 
@@ -41,13 +41,15 @@ Level::Level(sf::RenderWindow* win) : m_win(win)
 	timeStep = 1.0f / 60.0f;
 }
 
-void Level::handleInput(sf::Event* ev)
+int Level::handleInput(sf::Event* ev)
 {
 	m_playerL->handleInput(ev);
 	m_playerR->handleInput(ev);		
 	if(ev->type == sf::Event::Closed)
 	{
+		cleanUp();
 		m_win->close();
+		return 1;
 	}
 	if(ev->type == sf::Event::KeyPressed)
 	{
@@ -68,6 +70,7 @@ void Level::handleInput(sf::Event* ev)
 		m_mPos.x = ev->mouseMove.x;
 		m_mPos.y = ev->mouseMove.y;
 	}
+	return 0;
 }
 
 void Level::update()
@@ -75,6 +78,7 @@ void Level::update()
 	m_playerL->update();
 	m_playerR->update();
 
+	m_ball->update();
 	m_buffMgr->update();
 
 	m_world->Step(timeStep, 6, 2);
@@ -92,4 +96,16 @@ void Level::render()
 	m_goal[1]->render();
 
 	m_buffMgr->render();
+}
+void Level::cleanUp()
+{
+	delete m_world;
+
+	m_playerL = NULL;
+	m_playerR = NULL;
+	m_ball = NULL;
+	m_ground = NULL;
+	m_goal[0] = NULL;
+	m_goal[1] = NULL;
+	m_chain = NULL;
 }

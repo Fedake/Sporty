@@ -29,6 +29,8 @@ Ball::Ball(b2Vec2 pos, int type, b2World* world, sf::RenderWindow* win) : Entity
 	
 	m_sprite.setOrigin(0.25*MTP, 0.25*MTP);
 	m_sprite.setTexture(*ResourceManager::get()->getEntityTex(0));
+
+	m_onGoal = false;
 }
 
 void Ball::render()
@@ -37,4 +39,12 @@ void Ball::render()
 	m_sprite.setRotation(m_body->GetAngle()*180/3.141);
 
 	m_win->draw(m_sprite);
+}
+
+void Ball::update()
+{
+	if (m_onGoal)
+	{
+		m_body->ApplyForce(b2Vec2(0.1f*m_dir, 0), m_body->GetWorldCenter());
+	}
 }

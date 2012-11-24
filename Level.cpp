@@ -16,6 +16,8 @@ Level::Level(sf::RenderWindow* win) : m_win(win)
 	m_goal[0] = new Goal(b2Vec2(0.75f, 10.6f), 1, m_world, m_win);
 	m_goal[1] = new Goal(b2Vec2(19.25f, 10.6f), -1, m_world, m_win);
 
+	m_buffMgr = new BuffManager(m_world, m_win);
+
 	m_world->SetContactListener(&contactListener);
 
 	// World endings
@@ -73,6 +75,8 @@ void Level::update()
 	m_playerL->update();
 	m_playerR->update();
 
+	m_buffMgr->update();
+
 	m_world->Step(timeStep, 6, 2);
 }
 
@@ -86,4 +90,6 @@ void Level::render()
 
 	m_goal[0]->render();
 	m_goal[1]->render();
+
+	m_buffMgr->render();
 }

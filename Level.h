@@ -9,6 +9,8 @@
 #include "Ball.h"
 #include "ContactListener.h"
 
+#include "BuffManager.h"
+
 class Level
 {
 	private:
@@ -23,6 +25,8 @@ class Level
 		Ball* m_ball;
 		Ground* m_ground;
 		Goal* m_goal[2];
+
+		BuffManager* m_buffMgr;
 		
 		SportowyContactListener contactListener;
 

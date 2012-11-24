@@ -17,7 +17,7 @@ class Engine
 
 		void run();
 
-		void input();
+		int input();
 		void update(sf::Time dt);
 		void render();
 };

@@ -39,7 +39,7 @@ Level::Level(sf::RenderWindow* win) : m_win(win)
 	timeStep = 1.0f / 60.0f;
 }
 
-void Level::handleInput(sf::Event* ev)
+int Level::handleInput(sf::Event* ev)
 {
 	m_playerL->handleInput(ev);
 	m_playerR->handleInput(ev);		
@@ -47,6 +47,7 @@ void Level::handleInput(sf::Event* ev)
 	{
 		cleanUp();
 		m_win->close();
+		return 1;
 	}
 	if(ev->type == sf::Event::KeyPressed)
 	{
@@ -67,6 +68,7 @@ void Level::handleInput(sf::Event* ev)
 		m_mPos.x = ev->mouseMove.x;
 		m_mPos.y = ev->mouseMove.y;
 	}
+	return 0;
 }
 
 void Level::update()

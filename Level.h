@@ -35,7 +35,7 @@ class Level
 	public:
 		Level(sf::RenderWindow* win);
 
-		void handleInput(sf::Event* ev);
+		int handleInput(sf::Event* ev);
 		void update();
 		void render();
 

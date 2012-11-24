@@ -16,6 +16,7 @@ class SportowyContactListener : public b2ContactListener
 		bodyUserData1 = contact->GetFixtureA()->GetBody()->GetUserData();
 		if (bodyUserData1)
 		{
+///////////////////////////////////////////// JUMPING ////////////////////////////////////////////////
 			// check if fixture A was player
 			if (static_cast<Entity*>(bodyUserData1)->getType() == 1)
 			{
@@ -47,7 +48,21 @@ class SportowyContactListener : public b2ContactListener
 					}
 				}
 			}
+			// check if fixture A was ground
+			if (static_cast<Entity*>(bodyUserData1)->getType() == 3)
+			{
+				bodyUserData2 = contact->GetFixtureB()->GetBody()->GetUserData();
+				if (bodyUserData2)
+				{
+					// if fixture B was player start standing
+					if (static_cast<Entity*>(bodyUserData2)->getType() == 1)
+					{
+						static_cast<Player*>(bodyUserData2)->startStanding();
+					}
+				}
+			}
 
+/////////////////////////////////////////// BALL ON GOAL /////////////////////////////////////////////////
 			// check if fixture A was ball
 			if (static_cast<Entity*>(bodyUserData1)->getType() == 2)
 			{
@@ -60,24 +75,6 @@ class SportowyContactListener : public b2ContactListener
 						Ball* ball = static_cast<Ball*>(bodyUserData1);
 						Goal* goal = static_cast<Goal*>(bodyUserData2);
 						ball->onGoal(true, goal->getFacing());
-					}
-				}
-			}
-		}
-	
-		bodyUserData1 = contact->GetFixtureA()->GetBody()->GetUserData();
-		if (bodyUserData1)
-		{
-			// check if fixture A was ground
-			if (static_cast<Entity*>(bodyUserData1)->getType() == 3)
-			{
-				bodyUserData2 = contact->GetFixtureB()->GetBody()->GetUserData();
-				if (bodyUserData2)
-				{
-					// if fixture B was player start standing
-					if (static_cast<Entity*>(bodyUserData2)->getType() == 1)
-					{
-						static_cast<Player*>(bodyUserData2)->startStanding();
 					}
 				}
 			}
@@ -104,10 +101,11 @@ class SportowyContactListener : public b2ContactListener
 		void* bodyUserData1;
 		void* bodyUserData2;
 
-		//check if fixture A was player
 		bodyUserData1 = contact->GetFixtureA()->GetBody()->GetUserData();
 		if (bodyUserData1)
 		{
+///////////////////////////////////////////// JUMPING ////////////////////////////////////////////////
+			//check if fixture A was player
 			if (static_cast<Entity*>(bodyUserData1)->getType() == 1)
 			{
 				bodyUserData2 = contact->GetFixtureB()->GetBody()->GetUserData();
@@ -132,7 +130,21 @@ class SportowyContactListener : public b2ContactListener
 					}
 				}
 			}
-			
+			// check if fixture A was ground
+			if (static_cast<Entity*>(bodyUserData1)->getType() == 3)
+			{
+				bodyUserData2 = contact->GetFixtureB()->GetBody()->GetUserData();
+				if (bodyUserData2)
+				{
+					// if fixture B was player start standing
+					if (static_cast<Entity*>(bodyUserData2)->getType() == 1)
+					{
+						static_cast<Player*>(bodyUserData2)->endStanding();
+					}
+				}
+			}
+
+/////////////////////////////////////////// BALL ON GOAL /////////////////////////////////////////////////
 			// check if fixture A was ball
 			if (static_cast<Entity*>(bodyUserData1)->getType() == 2)
 			{
@@ -145,25 +157,6 @@ class SportowyContactListener : public b2ContactListener
 						Ball* ball = static_cast<Ball*>(bodyUserData1);
 						Goal* goal = static_cast<Goal*>(bodyUserData2);
 						ball->onGoal(false);
-					}
-				}
-			}
-			
-		}
-	
-		bodyUserData1 = contact->GetFixtureA()->GetBody()->GetUserData();
-		if (bodyUserData1)
-		{
-			// check if fixture A was ground
-			if (static_cast<Entity*>(bodyUserData1)->getType() == 3)
-			{
-				bodyUserData2 = contact->GetFixtureB()->GetBody()->GetUserData();
-				if (bodyUserData2)
-				{
-					// if fixture B was player start standing
-					if (static_cast<Entity*>(bodyUserData2)->getType() == 1)
-					{
-						static_cast<Player*>(bodyUserData2)->endStanding();
 					}
 				}
 			}

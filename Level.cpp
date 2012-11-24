@@ -13,8 +13,8 @@ Level::Level(sf::RenderWindow* win) : m_win(win)
 	
 	m_ball = new Ball(b2Vec2(3.0f, 0.0f), 2, m_world, m_win);
 
-	m_goal[0] = new Goal(b2Vec2(0.75f, 10.6f), 1, m_world, m_win);
-	m_goal[1] = new Goal(b2Vec2(19.25f, 10.6f), -1, m_world, m_win);
+	m_goal[0] = new Goal(b2Vec2(0.75f, 10.6f), 1, 4, m_world, m_win);
+	m_goal[1] = new Goal(b2Vec2(19.25f, 10.6f), -1, 4, m_world, m_win);
 
 	m_world->SetContactListener(&contactListener);
 
@@ -75,6 +75,8 @@ void Level::update()
 {
 	m_playerL->update();
 	m_playerR->update();
+
+	m_ball->update();
 
 	m_world->Step(timeStep, 6, 2);
 }

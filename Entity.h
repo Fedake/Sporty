@@ -45,4 +45,6 @@ class Entity
 
 		int getType() { return m_type; }
 		b2Vec2 getPos() { return m_body->GetPosition(); }
+
+		b2Body* getBody() { return m_body; }
 };

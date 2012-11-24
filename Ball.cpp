@@ -8,7 +8,7 @@ Ball::Ball(b2Vec2 pos, int type, b2World* world, sf::RenderWindow* win) : Entity
 	b2BodyDef m_bodyDef;
 	m_bodyDef.type = b2_dynamicBody;
 	m_bodyDef.position.Set(6.0f, 1.0f);
-	m_bodyDef.linearDamping = 0.3;
+	m_bodyDef.linearDamping = 0.3f;
 	m_bodyDef.bullet = true;
 	m_body = m_world->CreateBody(&m_bodyDef);
 	
@@ -22,6 +22,7 @@ Ball::Ball(b2Vec2 pos, int type, b2World* world, sf::RenderWindow* win) : Entity
 	m_fixtureDef.density = 0.4f;
 	m_fixtureDef.friction = 0.5f;
 	m_fixtureDef.restitution = 0.6f;
+	m_fixtureDef.filter.categoryBits = CATEGORY_BALL;
 	m_body->CreateFixture(&m_fixtureDef);
 	
 	m_body->SetUserData(this);

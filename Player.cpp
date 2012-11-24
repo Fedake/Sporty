@@ -16,6 +16,8 @@ Player::Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindo
 	m_fixtureDef.shape = &m_box;
 	m_fixtureDef.density = 7.0f;
 	m_fixtureDef.friction = 0.3f;
+	m_fixtureDef.filter.categoryBits = CATEGORY_PLAYER;
+	m_fixtureDef.filter.maskBits = MASK_PLAYER;
 	m_body->CreateFixture(&m_fixtureDef);
 
 	m_body->SetUserData(this);
@@ -39,7 +41,8 @@ Player::Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindo
 	m_legFixtureDef.density = 1.0f;
 	m_legFixtureDef.friction = 0.1f;
 	m_legFixtureDef.restitution = 1.0f;
-	m_legFixtureDef.filter.groupIndex = -8;
+	m_legFixtureDef.filter.categoryBits = CATEGORY_LEG;
+	m_legFixtureDef.filter.maskBits = MASK_LEG;
 	m_legBody->CreateFixture(&m_legFixtureDef);
 
 	m_legSprite.setOrigin(0.2*MTP, 0.15*MTP);

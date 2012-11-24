@@ -8,11 +8,12 @@ Goal::Goal(b2Vec2 pos, int facing, b2World* world, sf::RenderWindow* win) : Enti
 	bodyDef.position.Set(pos.x, pos.y);
 	m_body = m_world->CreateBody(&bodyDef);
 
-	m_box.SetAsBox(0.75, 0.1);
+	m_box.SetAsBox(0.75f, 0.1f);
 	
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &m_box;
 	fixtureDef.friction = 0.3f;
+	fixtureDef.filter.categoryBits = CATEGORY_CROSSBAR;
 	m_body->CreateFixture(&fixtureDef);
 
 	m_sprite.setTexture(*ResourceManager::get()->getEntityTex(3));

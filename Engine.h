@@ -2,6 +2,7 @@
 #include <SFML\Graphics.hpp>
 #include <Box2D\Box2D.h>
 
+#include "Entity.h"
 #include "Player.h"
 #include "Ball.h"
 #include "Ground.h"

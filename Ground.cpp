@@ -15,7 +15,7 @@ Ground::Ground(b2Vec2 pos, int type, b2World* world, sf::RenderWindow* win) : En
 	m_groundFixtureDef.shape = &m_box;
 	m_groundFixtureDef.density = 1.0f;
 	m_groundFixtureDef.friction = 0.3f;
-	m_groundFixtureDef.filter.groupIndex = -8;
+	m_groundFixtureDef.filter.categoryBits = CATEGORY_GROUND;
 	m_body->CreateFixture(&m_groundFixtureDef);
 
 	m_body->SetUserData(this);

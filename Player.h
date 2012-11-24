@@ -12,6 +12,7 @@ class Player : public Entity
 	private:
 		// Leg
 		b2Body* m_legBody;
+		b2CircleShape m_box;
 		b2PolygonShape m_legDynamicBox;
 		sf::Sprite m_legSprite;
 

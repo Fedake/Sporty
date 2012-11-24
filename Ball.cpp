@@ -13,11 +13,11 @@ Ball::Ball(b2Vec2 pos, int type, b2World* world, sf::RenderWindow* win) : Entity
 	m_body = m_world->CreateBody(&m_bodyDef);
 	
 	b2FixtureDef m_fixtureDef;
-	m_fixtureDef.shape = &m_cBox;
+	m_fixtureDef.shape = &m_box;
 	m_fixtureDef.density = 0.4f;
 	m_fixtureDef.friction = 0.3f;
 
-	m_cBox.m_radius = 0.25f;
+	m_box.m_radius = 0.25f;
 
 	m_fixtureDef.density = 0.4f;
 	m_fixtureDef.friction = 0.5f;

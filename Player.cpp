@@ -10,10 +10,10 @@ Player::Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindo
 	m_bodyDef.fixedRotation = true;
 	m_body = m_world->CreateBody(&m_bodyDef);
 
-	m_cBox.m_radius = 0.55f;
+	m_box.m_radius = 0.55f;
 	
 	b2FixtureDef m_fixtureDef;
-	m_fixtureDef.shape = &m_cBox;
+	m_fixtureDef.shape = &m_box;
 	m_fixtureDef.density = 7.0f;
 	m_fixtureDef.friction = 0.3f;
 	m_body->CreateFixture(&m_fixtureDef);

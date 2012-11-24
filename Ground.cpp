@@ -9,10 +9,10 @@ Ground::Ground(b2Vec2 pos, int type, b2World* world, sf::RenderWindow* win) : En
 	m_groundBodyDef.position.Set(pos.x, pos.y);
 	m_body = m_world->CreateBody(&m_groundBodyDef);
 
-	m_rBox.SetAsBox(10.0f, 1.0f);
+	m_box.SetAsBox(10.0f, 1.0f);
 	
 	b2FixtureDef m_groundFixtureDef;
-	m_groundFixtureDef.shape = &m_rBox;
+	m_groundFixtureDef.shape = &m_box;
 	m_groundFixtureDef.density = 1.0f;
 	m_groundFixtureDef.friction = 0.3f;
 	m_groundFixtureDef.filter.groupIndex = -8;

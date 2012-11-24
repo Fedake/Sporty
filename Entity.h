@@ -13,8 +13,6 @@ class Entity
 
 		// Body
 		b2Body* m_body;
-		b2PolygonShape m_rBox;
-		b2CircleShape m_cBox;
 
 		sf::RectangleShape m_shape;
 		sf::Sprite m_sprite;

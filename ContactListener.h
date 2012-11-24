@@ -13,36 +13,50 @@ class SportowyContactListener : public b2ContactListener
 		void* bodyUserData1;
 		void* bodyUserData2;
 
-		//check if fixture A was player
+		// check if fixture A was player
 		bodyUserData1 = contact->GetFixtureA()->GetBody()->GetUserData();
-		if (bodyUserData1)
+		if (bodyUserData1 && static_cast<Entity*>(bodyUserData1)->getType() == 1)
 		{
-			if (static_cast<Entity*>(bodyUserData1)->getType() == 1)
+			bodyUserData2 = contact->GetFixtureB()->GetBody()->GetUserData();
+			if (bodyUserData2)
 			{
-				bodyUserData2 = contact->GetFixtureB()->GetBody()->GetUserData();
-				if (bodyUserData2)
+				// if fixture B was ground start standing
+				if (static_cast<Entity*>(bodyUserData2)->getType() == 3)
 				{
-					if (static_cast<Entity*>(bodyUserData2)->getType() == 3)
+					static_cast<Player*>(bodyUserData1)->startStanding();
+				}
+				
+				// if fixture B was another player
+				if (static_cast<Entity*>(bodyUserData2)->getType() == 1)
+				{
+					b2Vec2 pos1 = static_cast<Player*>(bodyUserData1)->getPos();
+					b2Vec2 pos2 = static_cast<Player*>(bodyUserData2)->getPos();
+
+					// if player1 is higher than player2
+					if (pos1.y < pos2.y - 0.5f)
 					{
-						static_cast<Player*>(bodyUserData1)->startStanding();
+						static_cast<Player*>(bodyUserData1)->startPStanding();
+					}
+					// if player2 is higher than player1
+					if (pos2.y < pos1.y - 0.5f)
+					{
+						static_cast<Player*>(bodyUserData2)->startPStanding();
 					}
 				}
 			}
 		}
 
-		//check if fixture A was ground
+		// check if fixture A was ground
 		bodyUserData1 = contact->GetFixtureA()->GetBody()->GetUserData();
-		if (bodyUserData1)
+		if (bodyUserData1 && static_cast<Entity*>(bodyUserData1)->getType() == 3)
 		{
-			if (static_cast<Entity*>(bodyUserData1)->getType() == 3)
+			bodyUserData2 = contact->GetFixtureB()->GetBody()->GetUserData();
+			if (bodyUserData2)
 			{
-				bodyUserData2 = contact->GetFixtureB()->GetBody()->GetUserData();
-				if (bodyUserData2)
+				// if fixture B was player start standing
+				if (static_cast<Entity*>(bodyUserData2)->getType() == 1)
 				{
-					if (static_cast<Entity*>(bodyUserData2)->getType() == 1)
-					{
-						static_cast<Player*>(bodyUserData2)->startStanding();
-					}
+					static_cast<Player*>(bodyUserData2)->startStanding();
 				}
 			}
 		}
@@ -55,34 +69,42 @@ class SportowyContactListener : public b2ContactListener
 
 		//check if fixture A was player
 		bodyUserData1 = contact->GetFixtureA()->GetBody()->GetUserData();
-		if (bodyUserData1)
+		if (bodyUserData1 && static_cast<Entity*>(bodyUserData1)->getType() == 1)
 		{
-			if (static_cast<Entity*>(bodyUserData1)->getType() == 1)
+			bodyUserData2 = contact->GetFixtureB()->GetBody()->GetUserData();
+			if (bodyUserData2)
 			{
-				bodyUserData2 = contact->GetFixtureB()->GetBody()->GetUserData();
-				if (bodyUserData2)
+				// if fixture B was ground start standing
+				if (static_cast<Entity*>(bodyUserData2)->getType() == 3)
 				{
-					if (static_cast<Entity*>(bodyUserData2)->getType() == 3)
-					{
-						static_cast<Player*>(bodyUserData1)->endStanding();
-					}
+					static_cast<Player*>(bodyUserData1)->endStanding();
+				}
+				
+				// if fixture B was another player
+				else if (static_cast<Entity*>(bodyUserData2)->getType() == 1)
+				{
+					Player* player1 = static_cast<Player*>(bodyUserData1);
+					Player* player2 = static_cast<Player*>(bodyUserData2);
+
+					// if player1 is not on the ground start player-standing
+					if (!player1->isStanding()) player1->endPStanding();
+					// if player2 is not on the ground start player-standing
+					if (!player2->isStanding()) player2->endPStanding();
 				}
 			}
 		}
 
-		//check if fixture A was ground
+		// check if fixture A was ground
 		bodyUserData1 = contact->GetFixtureA()->GetBody()->GetUserData();
-		if (bodyUserData1)
+		if (bodyUserData1 && static_cast<Entity*>(bodyUserData1)->getType() == 3)
 		{
-			if (static_cast<Entity*>(bodyUserData1)->getType() == 3)
+			bodyUserData2 = contact->GetFixtureB()->GetBody()->GetUserData();
+			if (bodyUserData2)
 			{
-				bodyUserData2 = contact->GetFixtureB()->GetBody()->GetUserData();
-				if (bodyUserData2)
+				// if fixture B was player start standing
+				if (static_cast<Entity*>(bodyUserData2)->getType() == 1)
 				{
-					if (static_cast<Entity*>(bodyUserData2)->getType() == 1)
-					{
-						static_cast<Player*>(bodyUserData2)->endStanding();
-					}
+					static_cast<Player*>(bodyUserData2)->endStanding();
 				}
 			}
 		}

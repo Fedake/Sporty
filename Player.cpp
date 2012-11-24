@@ -22,7 +22,7 @@ Player::Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindo
 
 	m_sprite.setOrigin(0.55*MTP, 0.55*MTP);
 	m_sprite.setTexture(*ResourceManager::get()->getEntityTex(1));
-	m_sprite.setScale(-1*m_facing, 1);
+	m_sprite.setScale((float)-1*m_facing, 1);
 
 	// The leg
 	b2BodyDef m_legBodyDef;
@@ -44,7 +44,7 @@ Player::Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindo
 
 	m_legSprite.setOrigin(0.2*MTP, 0.15*MTP);
 	m_legSprite.setTexture(*ResourceManager::get()->getEntityTex(2));
-	m_legSprite.setScale(m_facing, 1);
+	m_legSprite.setScale((float)m_facing, 1);
 
 	// Joint
 	b2RevoluteJointDef jointDef;
@@ -77,6 +77,7 @@ Player::Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindo
 	m_kick = false;
 	m_vel = 0;
 	m_standing = false;
+	m_pStanding = false;
 }
 
 void Player::update()
@@ -116,7 +117,7 @@ void Player::handleInput(sf::Event* event)
 			if(event->key.code == sf::Keyboard::D)	m_vel += 1;
 			if(event->key.code == sf::Keyboard::Space) m_kick = true;
 			if(event->key.code == sf::Keyboard::W) 
-				if (m_standing) m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)), m_body->GetWorldCenter());
+				if (canJump()) m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)), m_body->GetWorldCenter());
 		}
 		if (event->type == sf::Event::KeyReleased)
 		{
@@ -134,11 +135,10 @@ void Player::handleInput(sf::Event* event)
 			if(event->key.code == sf::Keyboard::Right)	m_vel += 1;
 			if(event->key.code == sf::Keyboard::P) m_kick = true;
 			if(event->key.code == sf::Keyboard::Up) 
-				if (m_standing) m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)), m_body->GetWorldCenter());
+				if (canJump()) m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)), m_body->GetWorldCenter());
 		}
 		if (event->type == sf::Event::KeyReleased)
 		{
-
 			if(event->key.code == sf::Keyboard::Left) m_vel += 1;
 			if(event->key.code == sf::Keyboard::Right)	m_vel -= 1;
 			if(event->key.code == sf::Keyboard::P) m_kick = false;

@@ -26,6 +26,7 @@ class Player : public Entity
 		int m_facing;
 
 		bool m_standing;
+		bool m_pStanding;
 
 	public:
 		Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindow* win);
@@ -36,5 +37,11 @@ class Player : public Entity
 
 		void startStanding() { m_standing = true; }
 		void endStanding() { m_standing = false; }
+
+		void startPStanding() { m_pStanding = true; }
+		void endPStanding() { m_pStanding = false; }
+
+		bool isStanding() { return m_standing; }
+		bool canJump() { return m_standing || m_pStanding;	}
 };
 

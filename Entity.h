@@ -15,7 +15,6 @@ class Entity
 		b2Body* m_body;
 		b2PolygonShape m_rBox;
 		b2CircleShape m_cBox;
-		b2Vec2 m_pos;
 
 		sf::RectangleShape m_shape;
 		sf::Sprite m_sprite;
@@ -27,4 +26,5 @@ class Entity
 		virtual void render();
 
 		int getType() { return m_type; }
+		b2Vec2 getPos() { return m_body->GetPosition(); }
 };

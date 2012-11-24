@@ -83,6 +83,12 @@ Player::Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindo
 	m_pStanding = false;
 }
 
+Player::~Player(void)
+{
+	m_world->DestroyBody(m_body);
+	m_world->DestroyJoint(m_joint);
+}
+
 void Player::update()
 {
 	b2Vec2 vel = m_body->GetLinearVelocity();

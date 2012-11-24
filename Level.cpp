@@ -45,6 +45,7 @@ void Level::handleInput(sf::Event* ev)
 	m_playerR->handleInput(ev);		
 	if(ev->type == sf::Event::Closed)
 	{
+		cleanUp();
 		m_win->close();
 	}
 	if(ev->type == sf::Event::KeyPressed)
@@ -86,4 +87,17 @@ void Level::render()
 
 	m_goal[0]->render();
 	m_goal[1]->render();
+}
+
+void Level::cleanUp()
+{
+	delete m_world;
+
+	m_playerL = NULL;
+	m_playerR = NULL;
+	m_ball = NULL;
+	m_ground = NULL;
+	m_goal[0] = NULL;
+	m_goal[1] = NULL;
+	m_chain = NULL;
 }

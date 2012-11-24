@@ -38,5 +38,7 @@ class Level
 		void handleInput(sf::Event* ev);
 		void update();
 		void render();
+
+		void cleanUp();
 };
 

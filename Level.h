@@ -11,6 +11,8 @@
 
 #include "BuffManager.h"
 
+#include "DebugInfo.h"
+
 class SportowyContactListener;
 
 class Level
@@ -32,6 +34,8 @@ class Level
 		bool m_scored;
 
 		BuffManager* m_buffMgr;
+
+		DebugInfo* m_dbg;
 		
 		SportowyContactListener* contactListener;
 
@@ -40,6 +44,8 @@ class Level
 
 		sf::Vector2i m_mPos;
 		sf::Vector2f m_mGPos;
+
+		sf::Clock m_dt;
 
 	public:
 		Level(sf::RenderWindow* win);

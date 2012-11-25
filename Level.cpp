@@ -22,6 +22,8 @@ Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false)
 
 	m_buffMgr = new BuffManager(m_world, m_win);
 
+	m_dbg = new DebugInfo();
+
 	contactListener = new SportowyContactListener(this);
 	m_world->SetContactListener(contactListener);
 
@@ -44,6 +46,8 @@ Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false)
 
 	// Step
 	timeStep = 1.0f / 60.0f;
+
+	m_dt.restart();
 }
 
 int Level::handleInput(sf::Event* ev)
@@ -58,6 +62,7 @@ int Level::handleInput(sf::Event* ev)
 	}
 	if(ev->type == sf::Event::KeyPressed)
 	{
+		if(ev->key.code == sf::Keyboard::F1) m_dbg->toggle();
 	}
 	if(ev->type == sf::Event::KeyReleased)
 	{
@@ -89,6 +94,9 @@ void Level::update()
 	if(m_scored) reset();
 	m_score.update();
 
+	m_dbg->update(m_dt.getElapsedTime().asMicroseconds(), m_playerL, m_playerR, m_ball);
+	m_dt.restart();
+
 	m_world->Step(timeStep, 6, 2);
 }
 
@@ -106,6 +114,8 @@ void Level::render()
 	m_buffMgr->render();
 
 	m_score.render(m_win);
+
+	m_dbg->render(m_win);
 }
 
 void Level::score(int goal)

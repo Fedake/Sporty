@@ -7,16 +7,11 @@
 #include "Ground.h"
 #include "Goal.h"
 #include "Ball.h"
-
+#include "Score.h"
 
 #include "BuffManager.h"
 
 class SportowyContactListener;
-
-struct Score
-{
-	int left, right;
-};
 
 class Level
 {

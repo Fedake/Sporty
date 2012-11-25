@@ -87,6 +87,7 @@ void Level::update()
 	m_buffMgr->update();
 
 	if(m_scored) reset();
+	m_score.update();
 
 	m_world->Step(timeStep, 6, 2);
 }
@@ -103,6 +104,8 @@ void Level::render()
 	m_goal[1]->render();
 
 	m_buffMgr->render();
+
+	m_score.render(m_win);
 }
 
 void Level::score(int goal)
@@ -113,8 +116,6 @@ void Level::score(int goal)
 		else m_score.right++;
 
 		m_scored = true;
-
-		std::cout << "Wynikers: " << m_score.left << ":" << m_score.right << " xD\n";
 	}
 }
 

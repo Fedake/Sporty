@@ -82,6 +82,17 @@ Player::Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindo
 	m_vel = 0;
 	m_standing = false;
 	m_pStanding = false;
+
+	Effect test;
+	test.lockJump = true;
+	test.m_duration = 3000;
+
+	Effect test2;
+	test2.lockMovement = true;
+	test2.m_duration = 6000;
+
+	m_eMgr.addEffect(test);
+	m_eMgr.addEffect(test2);
 }
 
 Player::~Player(void)
@@ -93,7 +104,9 @@ Player::~Player(void)
 void Player::update()
 {
 	b2Vec2 vel = m_body->GetLinearVelocity();
+	m_eMgr.update();
 	float force = 0;
+
 
 	switch (m_vel)
 	{
@@ -105,7 +118,8 @@ void Player::update()
 		force = vel.x * -30; break;
 	}
 	m_body->ApplyForce(b2Vec2(force, 0), m_body->GetWorldCenter());
-
+	
+	if(m_eMgr.m_final.lockMovement) m_body->SetLinearVelocity(b2Vec2(0, vel.y));
 	switch (m_kick)
 	{
 	case 1:
@@ -127,7 +141,8 @@ void Player::handleInput(sf::Event* event)
 			if(event->key.code == sf::Keyboard::D)	m_vel += 1;
 			if(event->key.code == sf::Keyboard::Space) m_kick = true;
 			if(event->key.code == sf::Keyboard::W) 
-				if (canJump()) m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)), m_body->GetWorldCenter());
+				if (canJump() && !m_eMgr.m_final.lockJump)
+					m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)) , m_body->GetWorldCenter());
 		}
 		if (event->type == sf::Event::KeyReleased)
 		{

@@ -140,6 +140,18 @@ void Level::reset()
 	m_scored = false;
 }
 
+void Level::applyEffect(Effect effect, int ballOwner)
+{
+	if(ballOwner == 1)
+	{
+		m_playerL->addEffect(effect);
+	}
+	if(ballOwner == -1)
+	{
+		m_playerR->addEffect(effect);
+	}
+}
+
 
 void Level::cleanUp()
 {

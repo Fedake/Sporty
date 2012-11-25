@@ -57,7 +57,7 @@ class Level
 		void score(int goal);
 		void reset();
 
-		void applyEffect(Effect effect, int ballOwner){}
+		void applyEffect(Effect effect, int ballOwner);
 
 		void cleanUp();
 };

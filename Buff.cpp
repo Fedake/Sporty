@@ -3,7 +3,7 @@
 
 Buff::Buff(b2World* world, sf::RenderWindow* win) : Entity(world, win, 90), m_picked(false)
 {
-	createEffect(rand()%3);
+	createEffect(rand()%2);
 	// Body
 	b2BodyDef m_bodyDef;
 	m_bodyDef.type = b2_dynamicBody;
@@ -43,20 +43,16 @@ void Buff::render()
 void Buff::createEffect(int id)
 {
 	m_effect.id = id;
+	m_effect.m_duration = ((rand()%5)+5)*1000;
 
 	if(id == 0)
 	{
 		m_effect.type = NEGATIVE;
-		m_effect.jumpForce = -5;
+		m_effect.lockJump = true;
 	}
 	else if(id == 1)
 	{
-		m_effect.type = NEUTRAL;
-		m_effect.jumpForce = -5;
-	}
-	else if(id == 2)
-	{
-		m_effect.type = POSITIVE;
-		m_effect.jumpForce = -5;
+		m_effect.type = NEGATIVE;
+		m_effect.lockMovement = true;
 	}
 }

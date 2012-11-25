@@ -3,11 +3,17 @@
 
 struct Effect
 {
+	Effect() : type(0), id(0), linearForce(0), jumpForce(0), lockJump(false), lockMovement(false) {}
+	 
 	int type;
 	int id;
 
-	int linearVel;
+	int m_duration;
+
+	int linearForce;
 	int jumpForce;
+
+	bool lockJump, lockMovement;
 };
 
 class Buff : public Entity

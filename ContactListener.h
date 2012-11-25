@@ -218,7 +218,7 @@ private:
 	{
 		void* bodyData1 = contact->GetFixtureA()->GetBody()->GetUserData();
 		void* bodyData2 = contact->GetFixtureB()->GetBody()->GetUserData();
-
+		//GOALS
 		if (contact->GetFixtureA()->GetFilterData().categoryBits == CATEGORY_GOAL)
 		{
       		contact->SetEnabled(false);
@@ -237,6 +237,32 @@ private:
 				Goal* goal = static_cast<Goal*>(bodyData2);
 				Ball* ball = static_cast<Ball*>(bodyData1);
 				m_level->score(goal->getFacing());
+			}
+		}
+
+		//BUFFS
+		if (contact->GetFixtureA()->GetFilterData().categoryBits == CATEGORY_BUFF)
+		{
+      		contact->SetEnabled(false);
+			if(contact->GetFixtureB()->GetFilterData().categoryBits == CATEGORY_BALL)
+			{
+				Buff* buff = static_cast<Buff*>(bodyData1);
+				Ball* ball = static_cast<Ball*>(bodyData2);
+
+				m_level->applyEffect(buff->getEffect(), ball->getOwner());
+				buff->pick();
+			}
+		}
+		if (contact->GetFixtureB()->GetFilterData().categoryBits == CATEGORY_BUFF)
+		{
+      		contact->SetEnabled(false);
+			if(contact->GetFixtureA()->GetFilterData().categoryBits == CATEGORY_BALL)
+			{
+				Buff* buff = static_cast<Buff*>(bodyData2);
+				Ball* ball = static_cast<Ball*>(bodyData1);
+
+				m_level->applyEffect(buff->getEffect(), ball->getOwner());
+				buff->pick();
 			}
 		}
 	}

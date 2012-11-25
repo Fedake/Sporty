@@ -26,7 +26,7 @@ void BuffManager::update()
 	{
 		m_buffs[i].m_timeLeft -= dt;
 
-		if(m_buffs[i].m_timeLeft < 0)
+		if(m_buffs[i].m_timeLeft < 0 || m_buffs[i].m_buff->isPicked())
 		{
 			delete m_buffs[i].m_buff;
 			m_buffs.erase(m_buffs.begin() + i);
@@ -49,10 +49,6 @@ void BuffManager::update()
 
 
 	m_dt.restart();
-}
-
-void BuffManager::enableBuff(int index)
-{
 }
 
 void BuffManager::render()

@@ -9,7 +9,7 @@ DebugInfo::DebugInfo(void) : m_active(false)
 	m_debugText.setFont(*ResourceManager::get()->getDefaultFont());
 }
 
-void DebugInfo::update(int dt, Entity* p1, Entity* p2, Entity* ball)
+void DebugInfo::update(int dt, Entity* p1, Entity* p2, Entity* ball, int bodies)
 {
 	if(m_active)
 	{
@@ -18,7 +18,8 @@ void DebugInfo::update(int dt, Entity* p1, Entity* p2, Entity* ball)
 		"Fps: " << 1000000.f/dt << "\n" <<
 		"P1 x: " << p1->getPos().x << " y: " << p1->getPos().y << "\n" <<
 		"P2 x: " << p2->getPos().x << " y: " << p2->getPos().y << "\n" <<
-		"Ball x: " << ball->getPos().x << " y: " << ball->getPos().y << "\n";
+		"Ball x: " << ball->getPos().x << " y: " << ball->getPos().y << "\n" << 
+		"Bodies count: " << bodies << "\n";
 
 		m_debugText.setString(s.str());
 	}

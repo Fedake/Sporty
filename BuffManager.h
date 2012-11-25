@@ -17,8 +17,6 @@ public:
 	void reset();
 	void update();
 
-	void enableBuff(int index);
-
 	void render();
 
 private:
@@ -31,7 +29,6 @@ private:
 	float m_interval;
 
 	std::vector<BuffInfo> m_buffs;
-	std::vector<BuffInfo> m_activeBuffs;
 
 };
 

@@ -94,7 +94,7 @@ void Level::update()
 	if(m_scored) reset();
 	m_score.update();
 
-	m_dbg->update(m_dt.getElapsedTime().asMicroseconds(), m_playerL, m_playerR, m_ball);
+	m_dbg->update(m_dt.getElapsedTime().asMicroseconds(), m_playerL, m_playerR, m_ball, m_world->GetBodyCount());
 	m_dt.restart();
 
 	m_world->Step(timeStep, 6, 2);

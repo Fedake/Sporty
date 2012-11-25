@@ -30,6 +30,9 @@ ResourceManager::ResourceManager()
 	m_buffTex.push_back(new sf::Texture());
 	m_buffTex[2]->loadFromFile("data/buff/positive.png");
 	m_buffTex[2]->setSmooth(true);
+
+	m_font = new sf::Font();
+	m_font->loadFromFile("data/font.ttf");
 }
 
 ResourceManager* ResourceManager::get()

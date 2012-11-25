@@ -1,11 +1,12 @@
 #include "Score.h"
 #include <sstream>
+#include "ResourceManager.h"
 
 Score::Score(void)
 {
 	m_scoreText.setCharacterSize(60);
-	m_font.loadFromFile("data/font.ttf");
-	m_scoreText.setFont(m_font);
+
+	m_scoreText.setFont(*ResourceManager::get()->getDefaultFont());
 	m_scoreText.setColor(sf::Color::Black);
 }
 

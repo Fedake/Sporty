@@ -33,6 +33,7 @@ Player::Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindo
 	m_legBodyDef.position.Set(m_body->GetPosition().x, m_body->GetPosition().y+0.7f);
 
 	m_legBody = m_world->CreateBody(&m_legBodyDef);
+	m_legBody->SetUserData(this);
 
 	m_legDynamicBox.SetAsBox(0.2f, 0.15f);
 	

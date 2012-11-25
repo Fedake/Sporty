@@ -14,6 +14,7 @@ class BuffManager
 public:
 	BuffManager(b2World* world, sf::RenderWindow* win);
 
+	void reset();
 	void update();
 
 	void enableBuff(int index);

@@ -7,9 +7,16 @@
 #include "Ground.h"
 #include "Goal.h"
 #include "Ball.h"
-#include "ContactListener.h"
+
 
 #include "BuffManager.h"
+
+class SportowyContactListener;
+
+struct Score
+{
+	int left, right;
+};
 
 class Level
 {
@@ -26,9 +33,12 @@ class Level
 		Ground* m_ground;
 		Goal* m_goal[2];
 
+		Score m_score;
+		bool m_scored;
+
 		BuffManager* m_buffMgr;
 		
-		SportowyContactListener contactListener;
+		SportowyContactListener* contactListener;
 
 		//£añcuch xD
 		b2Body* m_chain;
@@ -42,6 +52,9 @@ class Level
 		int handleInput(sf::Event* ev);
 		void update();
 		void render();
+
+		void score(int goal);
+		void reset();
 
 		void cleanUp();
 };

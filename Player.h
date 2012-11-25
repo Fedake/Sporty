@@ -43,7 +43,11 @@ class Player : public Entity
 		void startPStanding() { m_pStanding = true; }
 		void endPStanding() { m_pStanding = false; }
 
+		void setPos(b2Vec2 pos){m_body->SetTransform(pos, m_body->GetAngle()); m_legBody->SetTransform(pos + b2Vec2(0, 0.7f), m_body->GetAngle());}
+
 		bool isStanding() { return m_standing; }
 		bool canJump() { return m_standing || m_pStanding;	}
+
+		int getFacing(){return m_facing;}
 };
 

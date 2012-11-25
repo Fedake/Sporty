@@ -5,9 +5,19 @@
 #include "Player.h"
 #include "Ground.h"
 #include "Entity.h"
+#include "Level.h"
+
+#include "Definitions.h"
 
 class SportowyContactListener : public b2ContactListener
 {
+public:
+	SportowyContactListener(Level* level) : m_level(level){}
+private:
+	Level* m_level;
+
+	
+
 	void BeginContact(b2Contact* contact)
 	{
 		void* bodyUserData1;
@@ -174,6 +184,59 @@ class SportowyContactListener : public b2ContactListener
 						ball->onGoal(false);
 					}
 				}
+			}
+
+////////////////////////////////////SET BALL'S OWNER///////////////////////////////////////
+			if (static_cast<Entity*>(bodyUserData1)->getType() == E_BALL)
+			{
+				bodyUserData2 = contact->GetFixtureB()->GetBody()->GetUserData();
+				if (bodyUserData2 && static_cast<Entity*>(bodyUserData2)->getType() == E_PLAYER)
+				{
+					Ball* ball = static_cast<Ball*>(bodyUserData1);
+					Player* player = static_cast<Player*>(bodyUserData2);
+
+					ball->setOwner(player->getFacing());
+				}
+			}
+
+			if (static_cast<Entity*>(bodyUserData1)->getType() == E_PLAYER)
+			{
+				bodyUserData2 = contact->GetFixtureB()->GetBody()->GetUserData();
+				if (bodyUserData2 && static_cast<Entity*>(bodyUserData2)->getType() == E_BALL)
+				{
+					Ball* ball = static_cast<Ball*>(bodyUserData2);
+					Player* player = static_cast<Player*>(bodyUserData1);
+
+					ball->setOwner(player->getFacing());
+				}
+			}
+
+		}
+	}
+
+	void PreSolve(b2Contact *contact, const b2Manifold *oldManifold)
+	{
+		void* bodyData1 = contact->GetFixtureA()->GetBody()->GetUserData();
+		void* bodyData2 = contact->GetFixtureB()->GetBody()->GetUserData();
+
+		if (contact->GetFixtureA()->GetFilterData().categoryBits == CATEGORY_GOAL)
+		{
+      		contact->SetEnabled(false);
+			if(static_cast<Entity*>(bodyData2)->getType() == E_BALL)
+			{
+				Goal* goal = static_cast<Goal*>(bodyData1);
+				Ball* ball = static_cast<Ball*>(bodyData2);
+				m_level->score(goal->getFacing());
+			}
+		}
+		if (contact->GetFixtureB()->GetFilterData().categoryBits == CATEGORY_GOAL)
+		{
+      		contact->SetEnabled(false);
+			if(static_cast<Entity*>(bodyData1)->getType() == E_BALL)
+			{
+				Goal* goal = static_cast<Goal*>(bodyData2);
+				Ball* ball = static_cast<Ball*>(bodyData1);
+				m_level->score(goal->getFacing());
 			}
 		}
 	}

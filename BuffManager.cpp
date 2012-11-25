@@ -6,6 +6,17 @@ BuffManager::BuffManager(b2World* world, sf::RenderWindow* win) : m_world(world)
 	m_dt.restart();
 }
 
+void BuffManager::reset()
+{
+	while(m_buffs.size() != 0)
+	{
+		delete m_buffs[0].m_buff;
+		m_buffs.erase(m_buffs.begin());
+	}
+
+	m_interval = 0;
+}
+
 void BuffManager::update()
 {
 	float dt = m_dt.getElapsedTime().asMilliseconds();

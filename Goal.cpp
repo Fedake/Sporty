@@ -16,6 +16,14 @@ Goal::Goal(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindow* w
 	fixtureDef.filter.categoryBits = CATEGORY_CROSSBAR;
 	m_body->CreateFixture(&fixtureDef);
 
+	m_goalBox.SetAsBox(0.50f, 1.25f, b2Vec2(0, 1.35f), 0);
+
+	b2FixtureDef goalFixtureDef;
+	goalFixtureDef.shape = &m_goalBox;
+	goalFixtureDef.friction = 0.3f;
+	goalFixtureDef.filter.categoryBits = CATEGORY_GOAL;
+	m_body->CreateFixture(&goalFixtureDef);
+
 	m_body->SetUserData(this);
 
 	m_sprite.setTexture(*ResourceManager::get()->getEntityTex(3));

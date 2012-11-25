@@ -9,6 +9,8 @@ public:
 	int getFacing() { return m_facing; }
 private:
 	b2PolygonShape m_box;
+	b2PolygonShape m_goalBox;
+
 	int m_facing;
 };
 

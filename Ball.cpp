@@ -2,12 +2,12 @@
 
 #include <iostream>
 
-Ball::Ball(b2Vec2 pos, int type, b2World* world, sf::RenderWindow* win) : Entity(world, win, type)
+Ball::Ball(b2Vec2 pos, int type, b2World* world, sf::RenderWindow* win) : Entity(world, win, type), m_owner(0)
 {
 	// Body
 	b2BodyDef m_bodyDef;
 	m_bodyDef.type = b2_dynamicBody;
-	m_bodyDef.position.Set(6.0f, 1.0f);
+	m_bodyDef.position = pos;
 	m_bodyDef.linearDamping = 0.3f;
 	m_bodyDef.bullet = true;
 	m_body = m_world->CreateBody(&m_bodyDef);

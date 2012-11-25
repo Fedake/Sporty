@@ -82,17 +82,6 @@ Player::Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindo
 	m_vel = 0;
 	m_standing = false;
 	m_pStanding = false;
-
-	Effect test;
-	test.lockJump = true;
-	test.m_duration = 3000;
-
-	Effect test2;
-	test2.lockMovement = true;
-	test2.m_duration = 6000;
-
-	m_eMgr.addEffect(test);
-	m_eMgr.addEffect(test2);
 }
 
 Player::~Player(void)

@@ -23,7 +23,7 @@ Buff::Buff(b2World* world, sf::RenderWindow* win) : Entity(world, win, 90)
 	m_body->SetUserData(this);
 	
 	m_sprite.setOrigin(0.25*MTP, 0.25*MTP);
-	m_sprite.setTexture(*ResourceManager::get()->getEntityTex(0));
+	m_sprite.setTexture(*ResourceManager::get()->getEntityTex(4));
 }
 
 Buff::~Buff()

@@ -14,7 +14,6 @@ public:
 
 private:
 	sf::Text m_scoreText;
-	sf::Font m_font;
 	
 };
 

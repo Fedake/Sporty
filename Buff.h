@@ -1,5 +1,15 @@
 #pragma once
 #include "entity.h"
+
+struct Effect
+{
+	int type;
+	int id;
+
+	int linearVel;
+	int jumpForce;
+};
+
 class Buff : public Entity
 {
 public:
@@ -8,7 +18,11 @@ public:
 
 	void render();
 
+	void createEffect(int id);
+
 private:
 	b2CircleShape m_box;
+
+	Effect m_effect;
 };
 

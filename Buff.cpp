@@ -3,6 +3,7 @@
 
 Buff::Buff(b2World* world, sf::RenderWindow* win) : Entity(world, win, 90)
 {
+	createEffect(rand()%3);
 	// Body
 	b2BodyDef m_bodyDef;
 	m_bodyDef.type = b2_dynamicBody;
@@ -23,7 +24,7 @@ Buff::Buff(b2World* world, sf::RenderWindow* win) : Entity(world, win, 90)
 	m_body->SetUserData(this);
 	
 	m_sprite.setOrigin(0.25*MTP, 0.25*MTP);
-	m_sprite.setTexture(*ResourceManager::get()->getEntityTex(4));
+	m_sprite.setTexture(*ResourceManager::get()->getBuffTex(m_effect.type));
 }
 
 Buff::~Buff()
@@ -37,4 +38,25 @@ void Buff::render()
 	m_sprite.setPosition(m_body->GetPosition().x*MTP, m_body->GetPosition().y*MTP);
 
 	m_win->draw(m_sprite);
+}
+
+void Buff::createEffect(int id)
+{
+	m_effect.id = id;
+
+	if(id == 0)
+	{
+		m_effect.type = NEGATIVE;
+		m_effect.jumpForce = -5;
+	}
+	else if(id == 1)
+	{
+		m_effect.type = NEUTRAL;
+		m_effect.jumpForce = -5;
+	}
+	else if(id == 2)
+	{
+		m_effect.type = POSITIVE;
+		m_effect.jumpForce = -5;
+	}
 }

@@ -6,8 +6,6 @@ Effect::Effect(int type, int category, int effect, int target, Player* playerL, 
 {
 	m_time.restart();
 
-	std::cout << "type:" << m_type << " cat:" << m_category << std::endl;
-
 	if (m_type == T_DEBUFF)
 		switch (m_category)
 		{

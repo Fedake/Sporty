@@ -1,7 +1,9 @@
 #include "Level.h"
 #include "ContactListener.h"
+#include "Screen.h"
 
 #include <fstream>
+#include <sstream>
 
 Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false), m_goalDelay(0), m_resetDelay(0)
 {
@@ -13,12 +15,12 @@ Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false), m_goalDelay(0
 	m_playerL = new Player(b2Vec2(3.0f, 12.45f), 1, 1, m_world, m_win);
 	m_playerR = new Player(b2Vec2(17.0f, 12.45f), -1, 1, m_world, m_win);
 
-	loadLevel("data/levels/1");
+	loadLevel("data/levels/");
 	
 	m_ball = new Ball(m_ballStartPos, 2, m_world, m_win);
 
-	m_goal[0] = new Goal(b2Vec2(0.75f, 10.1f), 1, 4, m_world, m_win);
-	m_goal[1] = new Goal(b2Vec2(19.25f, 10.1f), -1, 4, m_world, m_win);
+	m_goal[0] = new Goal(b2Vec2(0.75f, 10.35f), 1, 4, m_world, m_win);
+	m_goal[1] = new Goal(b2Vec2(19.25f, 10.35f), -1, 4, m_world, m_win);
 
 	m_score.left = 0;
 	m_score.right = 0;
@@ -51,12 +53,16 @@ Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false), m_goalDelay(0
 	timeStep = 1.0f / 60.0f;
 
 	m_dt.restart();
+	reset();
 }
 
 void Level::loadLevel(std::string path)
 {
 	std::ifstream file;
-	file.open(path);
+
+	std::stringstream s;
+	s << path << rand()%8;
+	file.open(s.str());
 
 	file >> m_ballStartPos.x;
 	file >> m_ballStartPos.y;
@@ -72,7 +78,6 @@ void Level::loadLevel(std::string path)
 			float radius;
 
 			file >> pos.x >> pos.y >> radius;
-
 
 			m_obstacles.push_back(new Obstacle(m_world, m_win, pos, radius));
 		}
@@ -138,13 +143,14 @@ void Level::update()
 		m_goalDelay += m_dt.getElapsedTime().asMilliseconds();
 		if(m_goalDelay > 1000) reset();
 	}
-	m_score.update();
 	m_resetDelay += m_dt.getElapsedTime().asMilliseconds();
+	m_score.update();
 
+	Screen::get()->update();
 	m_dbg->update(m_dt.getElapsedTime().asMicroseconds(), m_playerL, m_playerR, m_ball, m_world->GetBodyCount());
 	m_dt.restart();
 
-	if(m_resetDelay > 2000) m_world->Step(timeStep, 6, 2);
+	if(m_resetDelay > 3000) m_world->Step(timeStep, 6, 2);
 }
 
 void Level::render()
@@ -163,7 +169,7 @@ void Level::render()
 	m_buffMgr->render();
 
 	m_score.render(m_win);
-
+	Screen::get()->render(m_win);
 	m_dbg->render(m_win);
 }
 
@@ -173,6 +179,8 @@ void Level::score(int goal)
 	{
 		if(goal < 0) m_score.left++;
 		else m_score.right++;
+
+		if(m_ball->getPos().y  < 10.80) Screen::get()->print("GOLAZOOOO"); 
 
 		m_scored = true;
 	}
@@ -190,6 +198,10 @@ void Level::reset()
 	m_scored = false;
 	m_goalDelay = 0;
 	m_resetDelay = 0;
+
+	Screen::get()->print("2");
+	Screen::get()->print("1");
+	Screen::get()->print("0");
 }
 
 void Level::cleanUp()

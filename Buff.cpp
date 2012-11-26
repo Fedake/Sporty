@@ -9,7 +9,7 @@ Buff::Buff(b2World* world, sf::RenderWindow* win, BuffEffect effect)
 	b2BodyDef m_bodyDef;
 	m_bodyDef.type = b2_dynamicBody;
 	m_bodyDef.gravityScale = 0.0f;
-	m_bodyDef.position.Set((rand()%200)/10.f, 12.f);
+	m_bodyDef.position.Set((rand()%200)/10.f, rand()%100/10.f);
 	m_body = m_world->CreateBody(&m_bodyDef);
 	
 	b2FixtureDef m_fixtureDef;

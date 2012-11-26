@@ -3,6 +3,7 @@
 #include "Screen.h"
 
 #include <fstream>
+#include <sstream>
 
 Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false), m_goalDelay(0), m_resetDelay(0)
 {
@@ -14,7 +15,7 @@ Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false), m_goalDelay(0
 	m_playerL = new Player(b2Vec2(3.0f, 12.45f), 1, 1, m_world, m_win);
 	m_playerR = new Player(b2Vec2(17.0f, 12.45f), -1, 1, m_world, m_win);
 
-	loadLevel("data/levels/1");
+	loadLevel("data/levels/");
 	
 	m_ball = new Ball(m_ballStartPos, 2, m_world, m_win);
 
@@ -58,7 +59,10 @@ Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false), m_goalDelay(0
 void Level::loadLevel(std::string path)
 {
 	std::ifstream file;
-	file.open(path);
+
+	std::stringstream s;
+	s << path << rand()%8;
+	file.open(s.str());
 
 	file >> m_ballStartPos.x;
 	file >> m_ballStartPos.y;

@@ -79,7 +79,6 @@ void Level::loadLevel(std::string path)
 
 			file >> pos.x >> pos.y >> radius;
 
-
 			m_obstacles.push_back(new Obstacle(m_world, m_win, pos, radius));
 		}
 
@@ -179,6 +178,8 @@ void Level::score(int goal)
 	{
 		if(goal < 0) m_score.left++;
 		else m_score.right++;
+
+		if(m_ball->getPos().y  < 10.80) Screen::get()->print("GOLAZOOOO"); 
 
 		m_scored = true;
 	}

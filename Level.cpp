@@ -14,8 +14,8 @@ Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false)
 	
 	m_ball = new Ball(b2Vec2(10.0f, 3.0f), 2, m_world, m_win);
 
-	m_goal[0] = new Goal(b2Vec2(0.75f, 10.6f), 1, 4, m_world, m_win);
-	m_goal[1] = new Goal(b2Vec2(19.25f, 10.6f), -1, 4, m_world, m_win);
+	m_goal[0] = new Goal(b2Vec2(0.75f, 10.1f), 1, 4, m_world, m_win);
+	m_goal[1] = new Goal(b2Vec2(19.25f, 10.1f), -1, 4, m_world, m_win);
 
 	m_score.left = 0;
 	m_score.right = 0;

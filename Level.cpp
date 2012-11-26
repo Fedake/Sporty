@@ -1,5 +1,6 @@
 #include "Level.h"
 #include "ContactListener.h"
+#include "Screen.h"
 
 #include <fstream>
 
@@ -51,6 +52,7 @@ Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false), m_goalDelay(0
 	timeStep = 1.0f / 60.0f;
 
 	m_dt.restart();
+	reset();
 }
 
 void Level::loadLevel(std::string path)
@@ -137,13 +139,14 @@ void Level::update()
 		m_goalDelay += m_dt.getElapsedTime().asMilliseconds();
 		if(m_goalDelay > 1000) reset();
 	}
-	m_score.update();
 	m_resetDelay += m_dt.getElapsedTime().asMilliseconds();
+	m_score.update();
 
+	Screen::get()->update();
 	m_dbg->update(m_dt.getElapsedTime().asMicroseconds(), m_playerL, m_playerR, m_ball, m_world->GetBodyCount());
 	m_dt.restart();
 
-	if(m_resetDelay > 2000) m_world->Step(timeStep, 6, 2);
+	if(m_resetDelay > 3000) m_world->Step(timeStep, 6, 2);
 }
 
 void Level::render()
@@ -162,7 +165,7 @@ void Level::render()
 	m_buffMgr->render();
 
 	m_score.render(m_win);
-
+	Screen::get()->render(m_win);
 	m_dbg->render(m_win);
 }
 
@@ -188,6 +191,10 @@ void Level::reset()
 	m_scored = false;
 	m_goalDelay = 0;
 	m_resetDelay = 0;
+
+	Screen::get()->print("2");
+	Screen::get()->print("1");
+	Screen::get()->print("0");
 }
 
 void Level::applyEffect(Effect effect, int ballOwner)

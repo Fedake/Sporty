@@ -222,7 +222,7 @@ private:
 		if (contact->GetFixtureA()->GetFilterData().categoryBits == CATEGORY_GOAL)
 		{
       		contact->SetEnabled(false);
-			if(static_cast<Entity*>(bodyData2)->getType() == E_BALL)
+			if(contact->GetFixtureB()->GetFilterData().categoryBits == CATEGORY_BALL)
 			{
 				Goal* goal = static_cast<Goal*>(bodyData1);
 				Ball* ball = static_cast<Ball*>(bodyData2);
@@ -232,7 +232,7 @@ private:
 		if (contact->GetFixtureB()->GetFilterData().categoryBits == CATEGORY_GOAL)
 		{
       		contact->SetEnabled(false);
-			if(static_cast<Entity*>(bodyData1)->getType() == E_BALL)
+			if(contact->GetFixtureA()->GetFilterData().categoryBits == CATEGORY_BALL)
 			{
 				Goal* goal = static_cast<Goal*>(bodyData2);
 				Ball* ball = static_cast<Ball*>(bodyData1);
@@ -241,7 +241,6 @@ private:
 		}
 
 		//BUFFS
-		/*
 		if (contact->GetFixtureA()->GetFilterData().categoryBits == CATEGORY_BUFF)
 		{
       		contact->SetEnabled(false);
@@ -250,8 +249,7 @@ private:
 				Buff* buff = static_cast<Buff*>(bodyData1);
 				Ball* ball = static_cast<Ball*>(bodyData2);
 
-				m_level->applyEffect(buff->getEffect(), ball->getOwner());
-				buff->pick();
+				m_level->getBuffManager()->setEffect(buff, ball->getOwner());
 			}
 		}
 		if (contact->GetFixtureB()->GetFilterData().categoryBits == CATEGORY_BUFF)
@@ -262,10 +260,8 @@ private:
 				Buff* buff = static_cast<Buff*>(bodyData2);
 				Ball* ball = static_cast<Ball*>(bodyData1);
 
-				m_level->applyEffect(buff->getEffect(), ball->getOwner());
-				buff->pick();
+				m_level->getBuffManager()->setEffect(buff, ball->getOwner());
 			}
 		}
-		*/
 	}
 };

@@ -1,7 +1,9 @@
 #include "Level.h"
 #include "ContactListener.h"
 
-Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false)
+#include <fstream>
+
+Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false), m_goalDelay(0), m_resetDelay(0)
 {
 	m_gravity.Set(0, 8);
 	m_world = new b2World(m_gravity);
@@ -11,18 +13,19 @@ Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false)
 	m_playerL = new Player(b2Vec2(3.0f, 12.45f), 1, 1, m_world, m_win);
 	m_playerR = new Player(b2Vec2(17.0f, 12.45f), -1, 1, m_world, m_win);
 
+	loadLevel("data/levels/1");
 	
-	m_ball = new Ball(b2Vec2(10.0f, 3.0f), 2, m_world, m_win);
+	m_ball = new Ball(m_ballStartPos, 2, m_world, m_win);
 
-	m_goal[0] = new Goal(b2Vec2(0.75f, 10.6f), 1, 4, m_world, m_win);
-	m_goal[1] = new Goal(b2Vec2(19.25f, 10.6f), -1, 4, m_world, m_win);
+	m_goal[0] = new Goal(b2Vec2(0.75f, 10.1f), 1, 4, m_world, m_win);
+	m_goal[1] = new Goal(b2Vec2(19.25f, 10.1f), -1, 4, m_world, m_win);
 
 	m_score.left = 0;
 	m_score.right = 0;
 
 	m_dbg = new DebugInfo();
 
-	m_buffMgr = new BuffManager(m_world, m_win);
+	m_buffMgr = new BuffManager(m_world, m_win, m_playerL, m_playerR);
 
 	contactListener = new SportowyContactListener(this);
 	m_world->SetContactListener(contactListener);
@@ -48,6 +51,44 @@ Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false)
 	timeStep = 1.0f / 60.0f;
 
 	m_dt.restart();
+}
+
+void Level::loadLevel(std::string path)
+{
+	std::ifstream file;
+	file.open(path);
+
+	file >> m_ballStartPos.x;
+	file >> m_ballStartPos.y;
+
+	while(!file.eof())
+	{
+		std::string buffer;
+		file >> buffer;
+
+		if(buffer == "circle")
+		{
+			b2Vec2 pos;
+			float radius;
+
+			file >> pos.x >> pos.y >> radius;
+
+
+			m_obstacles.push_back(new Obstacle(m_world, m_win, pos, radius));
+		}
+
+		else if(buffer == "box")
+		{
+			b2Vec2 pos;
+			b2Vec2 size;
+			float angle;
+
+			file >> pos.x >> pos.y >> size.x >> size.y >> angle;
+
+
+			m_obstacles.push_back(new Obstacle(m_world, m_win, pos, size, angle));
+		}
+	}
 }
 
 int Level::handleInput(sf::Event* ev)
@@ -92,13 +133,18 @@ void Level::update()
 
 	m_buffMgr->update();
 
-	if(m_scored) reset();
+	if(m_scored)
+	{
+		m_goalDelay += m_dt.getElapsedTime().asMilliseconds();
+		if(m_goalDelay > 1000) reset();
+	}
 	m_score.update();
+	m_resetDelay += m_dt.getElapsedTime().asMilliseconds();
 
 	m_dbg->update(m_dt.getElapsedTime().asMicroseconds(), m_playerL, m_playerR, m_ball, m_world->GetBodyCount());
 	m_dt.restart();
 
-	m_world->Step(timeStep, 6, 2);
+	if(m_resetDelay > 2000) m_world->Step(timeStep, 6, 2);
 }
 
 void Level::render()
@@ -112,9 +158,11 @@ void Level::render()
 	m_goal[0]->render();
 	m_goal[1]->render();
 
-	m_score.render(m_win);
+	for(unsigned i = 0; i < m_obstacles.size(); i++) m_obstacles[i]->render();
 
 	m_buffMgr->render();
+
+	m_score.render(m_win);
 
 	m_dbg->render(m_win);
 }
@@ -135,11 +183,13 @@ void Level::reset()
 	m_playerL->setPos(b2Vec2(3.0f, 12.45f));
 	m_playerR->setPos(b2Vec2(17.0f, 12.45f));
 
-	m_ball->setPos(b2Vec2(10.0f, 3.0f));
+	m_ball->setPos(m_ballStartPos);
 
 	m_buffMgr->reset();
 	
 	m_scored = false;
+	m_goalDelay = 0;
+	m_resetDelay = 0;
 }
 
 void Level::cleanUp()

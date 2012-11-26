@@ -82,6 +82,9 @@ Player::Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindo
 	m_vel = 0;
 	m_standing = false;
 	m_pStanding = false;
+
+	m_speed = 4;
+	m_jump = 4;
 }
 
 Player::~Player(void)
@@ -93,19 +96,17 @@ Player::~Player(void)
 void Player::update()
 {
 	b2Vec2 vel = m_body->GetLinearVelocity();
-	float force = 0;
 
 
 	switch (m_vel)
 	{
 	case -1:
-		if (vel.x > -4) force = -150; break;
+		m_body->SetLinearVelocity(b2Vec2(-m_speed, vel.y)); break;
 	case 1:
-		if (vel.x < 4) force =  150; break;
+		m_body->SetLinearVelocity(b2Vec2(m_speed, vel.y)); break;
 	case 0:
-		force = vel.x * -30; break;
+		m_body->SetLinearVelocity(b2Vec2(0, vel.y)); break;
 	}
-	m_body->ApplyForce(b2Vec2(force, 0), m_body->GetWorldCenter());
 	
 	switch (m_kick)
 	{
@@ -129,7 +130,7 @@ void Player::handleInput(sf::Event* event)
 			if(event->key.code == sf::Keyboard::Space) m_kick = true;
 			if(event->key.code == sf::Keyboard::W) 
 				if (canJump())
-					m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)) , m_body->GetWorldCenter());
+					m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*m_jump)) , m_body->GetWorldCenter());
 		}
 		if (event->type == sf::Event::KeyReleased)
 		{
@@ -147,7 +148,7 @@ void Player::handleInput(sf::Event* event)
 			if(event->key.code == sf::Keyboard::Right)	m_vel += 1;
 			if(event->key.code == sf::Keyboard::P) m_kick = true;
 			if(event->key.code == sf::Keyboard::Up) 
-				if (canJump()) m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*4)), m_body->GetWorldCenter());
+				if (canJump()) m_body->ApplyLinearImpulse(b2Vec2(0, -(m_body->GetMass()*m_jump)), m_body->GetWorldCenter());
 		}
 		if (event->type == sf::Event::KeyReleased)
 		{

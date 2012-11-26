@@ -22,12 +22,16 @@ class Player : public Entity
 
 		// Velocity
 		int m_vel;
+
 		bool m_kick;
 
 		int m_facing;
 
 		bool m_standing;
 		bool m_pStanding;
+
+		float m_speed;
+		float m_jump;
 
 	public:
 		Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindow* win);
@@ -49,5 +53,8 @@ class Player : public Entity
 		bool canJump() { return m_standing || m_pStanding;	}
 
 		int getFacing(){return m_facing;}
+
+		void setSpeed(float speed) { m_speed = speed; }
+		void setJump(float jump) { m_jump = jump; }
 };
 

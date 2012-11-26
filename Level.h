@@ -8,6 +8,7 @@
 #include "Goal.h"
 #include "Ball.h"
 #include "Score.h"
+#include "Obstacle.h"
 #include "BuffManager.h"
 
 #include "DebugInfo.h"
@@ -31,12 +32,18 @@ class Level
 
 		Score m_score;
 		bool m_scored;
+		int m_goalDelay;
+		int m_resetDelay;
 
 		DebugInfo* m_dbg;
 		
 		SportowyContactListener* contactListener;
 
 		BuffManager* m_buffMgr;
+
+		std::vector<Obstacle*> m_obstacles;
+
+		b2Vec2 m_ballStartPos;
 
 		//£añcuch xD
 		b2Body* m_chain;
@@ -48,6 +55,8 @@ class Level
 
 	public:
 		Level(sf::RenderWindow* win);
+
+		void loadLevel(std::string path);
 
 		int handleInput(sf::Event* ev);
 		void update();
@@ -61,6 +70,8 @@ class Level
 			if (facing == -1) return m_playerR; 
 			if (facing == 1) return m_playerL;
 		}
+
+		BuffManager* getBuffManager() { return m_buffMgr; }
 
 		void cleanUp();
 };

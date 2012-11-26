@@ -6,24 +6,32 @@
 #include "Entity.h"
 #include "ResourceManager.h"
 
-enum BuffType
+class BuffEffect
 {
-	B_FREEZE = 0,
-	B_SLOWSPEED = 1,
-	B_SUPERSPEED = 2,
-	B_LOWJUMP = 3
+	public:
+		int type;
+		int category;
+		int effect;
 };
 
 class Buff : public Entity
 {
 	private:
-		sf::Clock* existTime;
+		sf::Clock* timeLeft;
+		BuffEffect m_effect;
+
+		bool m_picked;
 	public:
-		Buff(b2World* world, sf::RenderWindow* win, int type);
+		Buff(b2World* world, sf::RenderWindow* win, BuffEffect effect);
 		~Buff();
 
 		b2CircleShape m_box;
 
 		void render();
+		
+		BuffEffect getBuffEffect() { return m_effect; }
+
+		void pick() { m_picked = true; }
+		bool isPicked() { return m_picked; }
 };
 

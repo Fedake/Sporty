@@ -2,13 +2,14 @@
 #include "ResourceManager.h"
 
 
-Buff::Buff(b2World* world, sf::RenderWindow* win, int type) : Entity(world, win, type)
+Buff::Buff(b2World* world, sf::RenderWindow* win, BuffEffect effect) 
+								: Entity(world, win, effect.type), m_effect(effect)
 {
 	// Body
 	b2BodyDef m_bodyDef;
 	m_bodyDef.type = b2_dynamicBody;
 	m_bodyDef.gravityScale = 0.0f;
-	m_bodyDef.position.Set((rand()%200)/10.f, (rand()%100)/10.f);
+	m_bodyDef.position.Set((rand()%200)/10.f, 12.f);
 	m_body = m_world->CreateBody(&m_bodyDef);
 	
 	b2FixtureDef m_fixtureDef;
@@ -24,7 +25,9 @@ Buff::Buff(b2World* world, sf::RenderWindow* win, int type) : Entity(world, win,
 	m_body->SetUserData(this);
 
 	m_sprite.setOrigin(0.5*MTP, 0.5*MTP);
-	m_sprite.setTexture(*ResourceManager::get()->getBuffTex(m_type));	
+	m_sprite.setTexture(*ResourceManager::get()->getBuffTex(m_type));
+
+	m_picked = false;
 }
 
 Buff::~Buff()

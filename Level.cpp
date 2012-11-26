@@ -1,6 +1,8 @@
 #include "Level.h"
 #include "ContactListener.h"
 
+#include <fstream>
+
 Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false)
 {
 	m_gravity.Set(0, 8);
@@ -11,8 +13,9 @@ Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false)
 	m_playerL = new Player(b2Vec2(3.0f, 12.45f), 1, 1, m_world, m_win);
 	m_playerR = new Player(b2Vec2(17.0f, 12.45f), -1, 1, m_world, m_win);
 
+	loadLevel("data/levels/1");
 	
-	m_ball = new Ball(b2Vec2(10.0f, 3.0f), 2, m_world, m_win);
+	m_ball = new Ball(m_ballStartPos, 2, m_world, m_win);
 
 	m_goal[0] = new Goal(b2Vec2(0.75f, 10.1f), 1, 4, m_world, m_win);
 	m_goal[1] = new Goal(b2Vec2(19.25f, 10.1f), -1, 4, m_world, m_win);
@@ -48,6 +51,44 @@ Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false)
 	timeStep = 1.0f / 60.0f;
 
 	m_dt.restart();
+}
+
+void Level::loadLevel(std::string path)
+{
+	std::ifstream file;
+	file.open(path);
+
+	file >> m_ballStartPos.x;
+	file >> m_ballStartPos.y;
+
+	while(!file.eof())
+	{
+		std::string buffer;
+		file >> buffer;
+
+		if(buffer == "circle")
+		{
+			b2Vec2 pos;
+			float radius;
+
+			file >> pos.x >> pos.y >> radius;
+
+
+			m_obstacles.push_back(new Obstacle(m_world, m_win, pos, radius));
+		}
+
+		else if(buffer == "box")
+		{
+			b2Vec2 pos;
+			b2Vec2 size;
+			float angle;
+
+			file >> pos.x >> pos.y >> size.x >> size.y >> angle;
+
+
+			m_obstacles.push_back(new Obstacle(m_world, m_win, pos, size, angle));
+		}
+	}
 }
 
 int Level::handleInput(sf::Event* ev)
@@ -111,6 +152,8 @@ void Level::render()
 	m_goal[0]->render();
 	m_goal[1]->render();
 
+	for(unsigned i = 0; i < m_obstacles.size(); i++) m_obstacles[i]->render();
+
 	m_buffMgr->render();
 
 	m_score.render(m_win);
@@ -134,7 +177,7 @@ void Level::reset()
 	m_playerL->setPos(b2Vec2(3.0f, 12.45f));
 	m_playerR->setPos(b2Vec2(17.0f, 12.45f));
 
-	m_ball->setPos(b2Vec2(10.0f, 3.0f));
+	m_ball->setPos(m_ballStartPos);
 
 	m_buffMgr->reset();
 	m_scored = false;

@@ -5,6 +5,8 @@
 #include "Definitions.h"
 
 #define MTP 40
+#define RTD 180/b2_pi
+#define DTR b2_pi/180
 
 enum Category
 {

@@ -8,6 +8,7 @@
 #include "Goal.h"
 #include "Ball.h"
 #include "Score.h"
+#include "Obstacle.h"
 
 #include "BuffManager.h"
 
@@ -39,6 +40,10 @@ class Level
 		
 		SportowyContactListener* contactListener;
 
+		std::vector<Obstacle*> m_obstacles;
+
+		b2Vec2 m_ballStartPos;
+
 		//£añcuch xD
 		b2Body* m_chain;
 
@@ -49,6 +54,8 @@ class Level
 
 	public:
 		Level(sf::RenderWindow* win);
+
+		void loadLevel(std::string path);
 
 		int handleInput(sf::Event* ev);
 		void update();

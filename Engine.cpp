@@ -3,6 +3,8 @@
 
 Engine::Engine(int w, int h, int bpp)
 {
+	srand(time(NULL));
+
 	// Graphics
 	sf::ContextSettings conSet = sf::ContextSettings();
 	conSet.antialiasingLevel = 4;
@@ -10,11 +12,11 @@ Engine::Engine(int w, int h, int bpp)
 	m_win = new sf::RenderWindow(sf::VideoMode(w, h, bpp), "Sporty", sf::Style::Default, conSet);
 	m_win->setFramerateLimit(60);
 	m_win->setKeyRepeatEnabled(false);
-
+	
 	// Level
 	m_level = new Level(m_win);
 
-	srand(time(NULL));
+	
 }
 
 void Engine::run()

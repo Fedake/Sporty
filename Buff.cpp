@@ -1,9 +1,9 @@
 #include "Buff.h"
 #include "ResourceManager.h"
 
-Buff::Buff(b2World* world, sf::RenderWindow* win) : Entity(world, win, 90), m_picked(false)
+
+Buff::Buff(b2World* world, sf::RenderWindow* win, int type) : Entity(world, win, type)
 {
-	createEffect(rand()%2);
 	// Body
 	b2BodyDef m_bodyDef;
 	m_bodyDef.type = b2_dynamicBody;
@@ -22,9 +22,9 @@ Buff::Buff(b2World* world, sf::RenderWindow* win) : Entity(world, win, 90), m_pi
 	m_body->CreateFixture(&m_fixtureDef);
 	
 	m_body->SetUserData(this);
-	
+
 	m_sprite.setOrigin(0.5*MTP, 0.5*MTP);
-	m_sprite.setTexture(*ResourceManager::get()->getBuffTex(m_effect.type));
+	m_sprite.setTexture(*ResourceManager::get()->getBuffTex(m_type));	
 }
 
 Buff::~Buff()
@@ -32,27 +32,9 @@ Buff::~Buff()
 	m_world->DestroyBody(m_body);
 }
 
-
 void Buff::render()
 {
 	m_sprite.setPosition(m_body->GetPosition().x*MTP, m_body->GetPosition().y*MTP);
 
 	m_win->draw(m_sprite);
-}
-
-void Buff::createEffect(int id)
-{
-	m_effect.id = id;
-	m_effect.m_duration = ((rand()%5)+5)*1000;
-
-	if(id == 0)
-	{
-		m_effect.type = NEGATIVE;
-		m_effect.lockJump = true;
-	}
-	else if(id == 1)
-	{
-		m_effect.type = NEGATIVE;
-		m_effect.lockMovement = true;
-	}
 }

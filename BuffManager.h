@@ -1,34 +1,29 @@
 #pragma once
-#include <vector>
-#include <SFML\Graphics.hpp>
-#include "Buff.h"
 
-struct BuffInfo
-{
-	Buff* m_buff;
-	int m_timeLeft;
-};
+#include <vector>
+#include <Box2D\Box2D.h>
+#include <SFML\Graphics.hpp>
+
+#include "Buff.h"
+#include "ResourceManager.h"
+#include "Effect.h"
 
 class BuffManager
 {
-public:
-	BuffManager(b2World* world, sf::RenderWindow* win);
+	private:
+		b2World* m_world;
+		sf::RenderWindow* m_win;
 
-	void reset();
-	void update();
+		ResourceManager* m_resMgr;
 
-	void render();
+		std::vector<Buff*> m_buffs;
 
-private:
-	b2World* m_world;
-	sf::RenderWindow* m_win;
+		sf::Clock m_time;
+	public:
+		BuffManager(b2World* world, sf::RenderWindow* win);
 
-
-	sf::Clock m_dt;
-
-	float m_interval;
-
-	std::vector<BuffInfo> m_buffs;
-
+		void addBuff(Buff* buff);
+		void reset();
+		void update();
+		void render();
 };
-

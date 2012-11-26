@@ -14,7 +14,7 @@ Engine::Engine(int w, int h, int bpp)
 	// Level
 	m_level = new Level(m_win);
 
-	srand(time(NULL));
+	srand(static_cast<unsigned>(time(NULL)));
 }
 
 void Engine::run()

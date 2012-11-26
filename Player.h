@@ -6,7 +6,6 @@
 #include <iostream>
 
 #include "Entity.h"
-#include "EffectManager.h"
 
 class Player : public Entity
 {
@@ -20,8 +19,6 @@ class Player : public Entity
 		// Joint
 		b2RevoluteJointDef m_jointDef;
 		b2RevoluteJoint* m_joint;
-
-		EffectManager m_eMgr;
 
 		// Velocity
 		int m_vel;
@@ -52,7 +49,5 @@ class Player : public Entity
 		bool canJump() { return m_standing || m_pStanding;	}
 
 		int getFacing(){return m_facing;}
-
-		void addEffect(Effect e){m_eMgr.addEffect(e);}
 };
 

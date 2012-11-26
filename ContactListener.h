@@ -241,6 +241,7 @@ private:
 		}
 
 		//BUFFS
+		/*
 		if (contact->GetFixtureA()->GetFilterData().categoryBits == CATEGORY_BUFF)
 		{
       		contact->SetEnabled(false);
@@ -265,5 +266,6 @@ private:
 				buff->pick();
 			}
 		}
+		*/
 	}
 };

@@ -1,40 +1,29 @@
 #pragma once
-#include "entity.h"
 
-struct Effect
+#include <Box2D\Box2D.h>
+#include <SFML\Graphics.hpp>
+
+#include "Entity.h"
+#include "ResourceManager.h"
+
+enum BuffType
 {
-	Effect() : type(0), id(0), linearForce(0), jumpForce(0), lockJump(false), lockMovement(false) {}
-	 
-	int type;
-	int id;
-
-	int m_duration;
-
-	int linearForce;
-	int jumpForce;
-
-	bool lockJump, lockMovement;
+	B_FREEZE = 0,
+	B_SLOWSPEED = 1,
+	B_SUPERSPEED = 2,
+	B_LOWJUMP = 3
 };
 
 class Buff : public Entity
 {
-public:
-	Buff(b2World* world, sf::RenderWindow* win);
-	~Buff();
+	private:
+		sf::Clock* existTime;
+	public:
+		Buff(b2World* world, sf::RenderWindow* win, int type);
+		~Buff();
 
-	void render();
+		b2CircleShape m_box;
 
-	void createEffect(int id);
-	Effect getEffect(){return m_effect;}
-
-	void pick(){m_picked = true;}
-	bool isPicked(){return m_picked;}
-
-private:
-	b2CircleShape m_box;
-
-	Effect m_effect;
-
-	bool m_picked;
+		void render();
 };
 

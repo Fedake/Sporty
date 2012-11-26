@@ -20,9 +20,9 @@ Level::Level(sf::RenderWindow* win) : m_win(win), m_scored(false)
 	m_score.left = 0;
 	m_score.right = 0;
 
-	m_buffMgr = new BuffManager(m_world, m_win);
-
 	m_dbg = new DebugInfo();
+
+	m_buffMgr = new BuffManager(m_world, m_win);
 
 	contactListener = new SportowyContactListener(this);
 	m_world->SetContactListener(contactListener);
@@ -89,6 +89,7 @@ void Level::update()
 	m_playerR->update();
 
 	m_ball->update();
+
 	m_buffMgr->update();
 
 	if(m_scored) reset();
@@ -111,9 +112,9 @@ void Level::render()
 	m_goal[0]->render();
 	m_goal[1]->render();
 
-	m_buffMgr->render();
-
 	m_score.render(m_win);
+
+	m_buffMgr->render();
 
 	m_dbg->render(m_win);
 }
@@ -137,21 +138,9 @@ void Level::reset()
 	m_ball->setPos(b2Vec2(10.0f, 3.0f));
 
 	m_buffMgr->reset();
+	
 	m_scored = false;
 }
-
-void Level::applyEffect(Effect effect, int ballOwner)
-{
-	if(ballOwner == 1)
-	{
-		m_playerL->addEffect(effect);
-	}
-	if(ballOwner == -1)
-	{
-		m_playerR->addEffect(effect);
-	}
-}
-
 
 void Level::cleanUp()
 {

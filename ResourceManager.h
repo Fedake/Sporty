@@ -7,7 +7,7 @@ class ResourceManager
 {
 	public:
 		sf::Texture* getEntityTex(int n){return m_entTex[n];}
-		sf::Texture* getBuffTex(int n){return m_buffTex[n+1];}
+		sf::Texture* getBuffTex(int n){return m_buffTex[n];}
 		sf::Font* getDefaultFont(){return m_font;}
 
 		static ResourceManager* get();

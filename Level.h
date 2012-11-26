@@ -8,7 +8,6 @@
 #include "Goal.h"
 #include "Ball.h"
 #include "Score.h"
-
 #include "BuffManager.h"
 
 #include "DebugInfo.h"
@@ -33,11 +32,11 @@ class Level
 		Score m_score;
 		bool m_scored;
 
-		BuffManager* m_buffMgr;
-
 		DebugInfo* m_dbg;
 		
 		SportowyContactListener* contactListener;
+
+		BuffManager* m_buffMgr;
 
 		//£añcuch xD
 		b2Body* m_chain;
@@ -57,7 +56,11 @@ class Level
 		void score(int goal);
 		void reset();
 
-		void applyEffect(Effect effect, int ballOwner);
+		Player* getPlayer(int facing) 
+		{ 
+			if (facing == -1) return m_playerR; 
+			if (facing == 1) return m_playerL;
+		}
 
 		void cleanUp();
 };

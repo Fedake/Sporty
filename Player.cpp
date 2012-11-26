@@ -15,7 +15,7 @@ Player::Player(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindo
 	b2FixtureDef m_fixtureDef;
 	m_fixtureDef.shape = &m_box;
 	m_fixtureDef.density = 7.0f;
-	m_fixtureDef.friction = 0.3f;
+	m_fixtureDef.friction = 0.1f;
 	m_fixtureDef.filter.categoryBits = CATEGORY_PLAYER;
 	m_fixtureDef.filter.maskBits = MASK_PLAYER;
 	m_body->CreateFixture(&m_fixtureDef);
@@ -96,18 +96,19 @@ Player::~Player(void)
 void Player::update()
 {
 	b2Vec2 vel = m_body->GetLinearVelocity();
-
+	float desVel = 0;
 
 	switch (m_vel)
 	{
 	case -1:
-		m_body->SetLinearVelocity(b2Vec2(-m_speed, vel.y)); break;
+		desVel = b2Max(vel.x - 1.0f, -m_speed); break;
 	case 1:
-		m_body->SetLinearVelocity(b2Vec2(m_speed, vel.y)); break;
+		desVel = b2Min(vel.x + 1.0f, m_speed); break;
 	case 0:
-		m_body->SetLinearVelocity(b2Vec2(0, vel.y)); break;
+		desVel = vel.x * 0.5f; break;
 	}
-	
+	m_body->SetLinearVelocity(b2Vec2(desVel, vel.y));
+
 	switch (m_kick)
 	{
 	case 1:

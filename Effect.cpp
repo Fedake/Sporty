@@ -4,6 +4,7 @@
 Effect::Effect(int type, int category, int effect, int target, Player* playerL, Player* playerR)
 				: m_type(type), m_category(category), m_effect(effect), m_target(target), m_playerL(playerL), m_playerR(playerR)
 {
+	m_duration = rand() % 55 + 5;
 	m_time.restart();
 
 	if (m_type == T_DEBUFF)

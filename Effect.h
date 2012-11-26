@@ -41,6 +41,6 @@ class Effect
 		}
 
 		int getType() { return m_type; }
-		int getTimeLeft() { return m_duration - m_time.getElapsedTime().asMilliseconds(); }
+		int getTimeLeft() { return m_duration - m_time.getElapsedTime().asSeconds(); }
 };
 

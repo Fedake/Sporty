@@ -32,13 +32,25 @@ void BuffManager::update()
 
 		m_time.restart();
 	}
+
 	for(unsigned i = 0; i < m_buffs.size(); i++)
 	{
-		if(m_buffs[i]->isPicked())
+		if(m_buffs[i]->getTimeLeft() <= 0 || m_buffs[i]->isPicked())
 		{
 			delete m_buffs[i];
 			m_buffs.erase(m_buffs.begin() + i);
 			i--;
+		}
+	}
+
+	for (unsigned i = 0; i < 2; ++i)
+	for (unsigned j = 0; j < 1; ++j)
+	{
+		if (m_effects[i][j] != NULL)
+		if (m_effects[i][j]->getTimeLeft() <= 0)
+		{
+			delete m_effects[i][j];
+			m_effects[i][j] = NULL;
 		}
 	}
 }
@@ -64,19 +76,19 @@ void BuffManager::reset()
 void BuffManager::setEffect(Buff* buff, int target)
 {
 	if (target == -1)
-		if (m_effects[0][0] != NULL)
+		if (m_effects[0][buff->getBuffEffect().category] != NULL)
 		{
-			delete m_effects[0][0];
-			m_effects[0][1] = NULL;
+			delete m_effects[0][buff->getBuffEffect().category];
+			m_effects[0][buff->getBuffEffect().category] = NULL;
 		}
 	if (target == 1)
-		if (m_effects[1][0] != NULL)
+		if (m_effects[1][buff->getBuffEffect().category] != NULL)
 		{
-			delete m_effects[1][0];
-			m_effects[0][1] = NULL;
+			delete m_effects[1][buff->getBuffEffect().category];
+			m_effects[1][buff->getBuffEffect().category] = NULL;
 		}
 
-	m_effects[target == -1 ? 0 : 1][0] = new Effect(buff->getBuffEffect().type, buff->getBuffEffect().category, 
+	m_effects[target == -1 ? 0 : 1][buff->getBuffEffect().category] = new Effect(buff->getBuffEffect().type, buff->getBuffEffect().category, 
 														buff->getBuffEffect().effect, target, m_playerL, m_playerR);
 
 	buff->pick();

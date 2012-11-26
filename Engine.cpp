@@ -3,7 +3,6 @@
 
 Engine::Engine(int w, int h, int bpp)
 {
-	srand(time(NULL));
 
 	// Graphics
 	sf::ContextSettings conSet = sf::ContextSettings();

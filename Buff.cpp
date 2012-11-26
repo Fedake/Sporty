@@ -28,6 +28,7 @@ Buff::Buff(b2World* world, sf::RenderWindow* win, BuffEffect effect)
 	m_sprite.setTexture(*ResourceManager::get()->getBuffTex(m_type));
 
 	m_picked = false;
+	m_duration = rand() % 35 + 5;
 }
 
 Buff::~Buff()

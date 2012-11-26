@@ -17,10 +17,12 @@ class BuffEffect
 class Buff : public Entity
 {
 	private:
-		sf::Clock* timeLeft;
+		sf::Clock m_time;
 		BuffEffect m_effect;
 
 		bool m_picked;
+
+		int m_duration;
 	public:
 		Buff(b2World* world, sf::RenderWindow* win, BuffEffect effect);
 		~Buff();
@@ -33,5 +35,7 @@ class Buff : public Entity
 
 		void pick() { m_picked = true; }
 		bool isPicked() { return m_picked; }
+
+		int getTimeLeft() { return m_duration - m_time.getElapsedTime().asSeconds(); }
 };
 

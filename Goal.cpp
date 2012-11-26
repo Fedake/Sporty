@@ -16,7 +16,7 @@ Goal::Goal(b2Vec2 pos, int facing, int type, b2World* world, sf::RenderWindow* w
 	fixtureDef.filter.categoryBits = CATEGORY_CROSSBAR;
 	m_body->CreateFixture(&fixtureDef);
 
-	m_goalBox.SetAsBox(0.50f, 1.5f, b2Vec2(0, 1.60f), 0);
+	m_goalBox.SetAsBox(0.50f, 1.375f, b2Vec2(0, 1.60f), 0);
 
 	b2FixtureDef goalFixtureDef;
 	goalFixtureDef.shape = &m_goalBox;

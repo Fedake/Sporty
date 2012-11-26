@@ -33,6 +33,8 @@ class Level
 
 		Score m_score;
 		bool m_scored;
+		int m_goalDelay;
+		int m_resetDelay;
 
 		BuffManager* m_buffMgr;
 

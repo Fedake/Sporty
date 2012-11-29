@@ -3,19 +3,21 @@
 
 Engine::Engine(int w, int h, int bpp)
 {
+	srand(static_cast<unsigned>(time(NULL)));
 
 	// Graphics
 	sf::ContextSettings conSet = sf::ContextSettings();
 	conSet.antialiasingLevel = 4;
 	
 	m_win = new sf::RenderWindow(sf::VideoMode(w, h, bpp), "Sporty", sf::Style::Default, conSet);
+
+	std::cout << "OpenGL: " << m_win->getSettings().majorVersion << "." << m_win->getSettings().minorVersion;
+
 	m_win->setFramerateLimit(60);
 	m_win->setKeyRepeatEnabled(false);
 	
 	// Level
-	m_level = new Level(m_win);
-
-	srand(static_cast<unsigned>(time(NULL)));
+	m_level = new Level(m_win);	
 }
 
 void Engine::run()
